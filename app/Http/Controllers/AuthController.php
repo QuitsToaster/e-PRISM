@@ -68,4 +68,30 @@ class AuthController extends Controller
 
         return redirect()->route('welcome');
     }
+
+    // Add this inside AuthController class
+public function updateProfile(Request $request)
+{
+    $user = Auth::user();
+
+    // Validate input
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $user->id,
+        'password' => 'nullable|string|min:6|confirmed',
+    ]);
+
+    // Update name and email
+    $user->name = $request->name;
+    $user->email = $request->email;
+
+    // Update password if provided
+    if ($request->password) {
+        $user->password = Hash::make($request->password);
+    }
+
+    $user->save();
+
+    return redirect()->route('profile')->with('success', 'Profile updated successfully!');
+}
 }

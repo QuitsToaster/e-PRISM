@@ -29,7 +29,10 @@
                 <a href="{{ route('my.submissions') ?? '#' }}" class="hover:underline">My Submissions</a>
             </li>
             <li>
-                <a href="#" class="hover:underline">Profile</a>
+                <a href="{{ route('profile') }}" class="hover:underline">Profile</a>
+            </li>
+            <li>
+                <a href="{{ route('help.guides') }}" class="hover:underline">Help</a>
             </li>
             <li>
                 <form action="{{ route('logout') }}" method="POST" class="inline">

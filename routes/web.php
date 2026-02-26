@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
+// Landing Page
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
@@ -19,10 +20,25 @@ Route::get('dashboard', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
+// Submit Paper Page
 Route::get('submit-paper', function() {
-    return "Submit Paper Page (to be implemented)";
+    return view('submit_paper'); // <-- returns the Blade view
 })->middleware('auth')->name('submit.paper');
 
+// My Submissions Page
 Route::get('my-submissions', function() {
-    return "My Submissions Page (to be implemented)";
+    return view('my_submissions'); // <-- you can create this Blade later
 })->middleware('auth')->name('my.submissions');
+
+// Profile Page
+Route::get('profile', function () {
+    return view('profile');
+})->middleware('auth')->name('profile');
+
+// Update Profile
+Route::put('profile', [AuthController::class, 'updateProfile'])->middleware('auth')->name('profile.update');
+
+// Help & Guides Page
+Route::get('help-guides', function () {
+    return view('help_guides');
+})->middleware('auth')->name('help.guides');
