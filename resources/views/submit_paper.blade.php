@@ -20,12 +20,12 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <button id="btnProposal"
                 class="border-2 border-indigo-500 text-indigo-600 p-6 rounded-xl hover:bg-indigo-50 font-semibold">
-                📄 Research Proposal
+                Research Proposal
             </button>
 
             <button id="btnCompleted"
                 class="border-2 border-green-500 text-green-600 p-6 rounded-xl hover:bg-green-50 font-semibold">
-                ✅ Completed Research
+                Completed Research
             </button>
         </div>
     </div>
@@ -150,19 +150,19 @@ const chapterMap = {
             {
                 title: "Chapter IV. Action Research Methods",
                 subs: [
-                    "a. Participants and/or Other Sources of Data",
+                    "a. Participants and/or Other Sources of Data and Information",
                     "b. Data Gathering Methods",
-                    "c. Ethical Issues",
+                    "c. Ethical Considerations",
                     "d. Data Analysis Plan"
                 ]
             },
-            { title: "Chapter V. Work Plan and Timelines (Tabular)" },
+            { title: "Chapter V. Action Research Work Plan and Timelines (Tabular)" },
             { title: "Chapter VI. Cost Estimates (Tabular)" },
-            { title: "Chapter VII. Dissemination and Utilization Plan" },
+            { title: "Chapter VII. Plans for Disseminate and Utilization" },
             { title: "Chapter VIII. References" }
         ],
         basic: [
-            { title: "Chapter I. Introduction and Rationale" },
+            { title: "Chapter I. Context and Rationale" },
             { title: "Chapter II. Literature Review and Studies" },
             { title: "Chapter III. Research Questions" },
             { title: "Chapter IV. Scope and Limitation" },
@@ -177,7 +177,7 @@ const chapterMap = {
             },
             { title: "Chapter VI. Timetable (Tabular)" },
             { title: "Chapter VII. Cost Estimates (Tabular)" },
-            { title: "Chapter VIII. Dissemination Plan" },
+            { title: "Chapter VIII. Plans for Dissemination and Advocacy Plan" },
             { title: "Chapter IX. References" }
         ]
     },
@@ -185,11 +185,11 @@ const chapterMap = {
         action: [
             { title: "Chapter I. Context and Rationale" },
             { title: "Chapter II. Action Research Questions" },
-            { title: "Chapter III. Proposed Innovation" },
+            { title: "Chapter III. Proposed Innovation, Intervention, and Strategy" },
             {
                 title: "Chapter IV. Action Research Methods",
                 subs: [
-                    "a. Participants",
+                    "a. Participants and/or Other Sources of Data and Information",
                     "b. Data Gathering Methods",
                     "c. Ethical Issues",
                     "d. Data Analysis Plan"
@@ -199,13 +199,13 @@ const chapterMap = {
             { title: "Conclusions" },
             { title: "Recommendations" },
             { title: "Reflection" },
-            { title: "Chapter VI. Action Plan" },
+            { title: "Chapter VI. Action Plan to Sustain the Utilization of the Intervention Material" },
             { title: "Chapter VII. References" },
             { title: "Chapter VIII. Financial Report (Tabular)" }
         ],
         basic: [
             { title: "Chapter I. Introduction and Rationale" },
-            { title: "Chapter II. Literature Review" },
+            { title: "Chapter II. Literature Review and Studies" },
             { title: "Chapter III. Research Questions" },
             { title: "Chapter IV. Scope and Limitation" },
             {
@@ -217,11 +217,11 @@ const chapterMap = {
                     "d. Data Analysis Plan"
                 ]
             },
-            { title: "Chapter VI. Discussion of Results" },
+            { title: "Chapter VI. Discussion of Results and Recommendations" },
             { title: "Conclusions" },
             { title: "Recommendations" },
             { title: "Reflection" },
-            { title: "Chapter VII. Dissemination Plan" },
+            { title: "Chapter VII. Plans for Dissemination and Advocacy Plan" },
             { title: "Chapter VIII. References" },
             { title: "Chapter IX. Financial Report" }
         ]
