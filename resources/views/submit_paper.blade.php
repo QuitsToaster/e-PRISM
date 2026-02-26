@@ -228,37 +228,162 @@ const chapterMap = {
     }
 };
 
-/* LOAD CHAPTERS */
+function simpleTable(headers, namePrefix, totalColumn = false) {
+    let head = headers.map(h => `<th class="border px-3 py-2">${h}</th>`).join('');
+    if (totalColumn) head += `<th class="border px-3 py-2">Total</th>`;
+
+    let rows = headers.map((h, i) => `
+        <tr>
+            <td class="border px-3 py-2 font-semibold">${h}</td>
+            <td class="border px-3 py-2">
+                <input type="number"
+                       name="${namePrefix}[${i}]"
+                       class="w-full border p-2 rounded calc-input"
+                       data-group="${namePrefix}">
+            </td>
+        </tr>
+    `).join('');
+
+    return `
+        <table class="w-full border-collapse border mt-4">
+            <thead>
+                <tr>${head}</tr>
+            </thead>
+            <tbody>${rows}</tbody>
+        </table>
+    `;
+}
+
+function costEstimateTable(namePrefix, withGrandTotal = false) {
+    return `
+        <table class="w-full border-collapse border mt-4 cost-table" data-prefix="${namePrefix}">
+            <thead>
+                <tr>
+                    <th class="border p-2">Activities</th>
+                    <th class="border p-2">Item Description</th>
+                    <th class="border p-2">Qty</th>
+                    <th class="border p-2">Unit</th>
+                    <th class="border p-2">Unit Cost</th>
+                    <th class="border p-2">Total Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border p-2"><input name="${namePrefix}[activity]" class="w-full border p-2 rounded"></td>
+                    <td class="border p-2"><input name="${namePrefix}[item]" class="w-full border p-2 rounded"></td>
+                    <td class="border p-2"><input type="number" class="qty w-full border p-2 rounded"></td>
+                    <td class="border p-2"><input name="${namePrefix}[unit]" class="w-full border p-2 rounded"></td>
+                    <td class="border p-2"><input type="number" class="unit-cost w-full border p-2 rounded"></td>
+                    <td class="border p-2">
+                        <input type="number" class="total w-full border p-2 rounded" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        ${withGrandTotal ? `
+            <div class="text-right font-bold mt-2">
+                Grand Total: <span class="grand-total">0</span>
+            </div>` : ''}
+    `;
+}
+
 researchType.onchange = () => {
     chaptersDiv.innerHTML = '';
-
     if (!classification.value) return;
 
     const list = chapterMap[classification.value][researchType.value];
 
     list.forEach((ch, i) => {
-        let html = `
-            <div>
-                <h3 class="font-bold text-lg mb-2">${ch.title}</h3>
+        let html = `<div><h3 class="font-bold text-lg mb-2">${ch.title}</h3>`;
+
+        /* ================= TABULAR CHAPTERS ================= */
+
+        if (ch.title.includes('Work Plan and Timelines')) {
+            html += simpleTable([
+                'Strategies/Objectives',
+                'Program',
+                'Activities / Task',
+                'Materials',
+                'Financial',
+                'Human',
+                'Timeline'
+            ], `chapters[${i}][table]`);
+        }
+
+        else if (ch.title.includes('Timetable')) {
+            html += simpleTable([
+                'Activities','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct'
+            ], `chapters[${i}][table]`);
+        }
+
+        else if (ch.title.includes('Cost Estimates')) {
+            html += costEstimateTable(`chapters[${i}][cost]`, true);
+        }
+
+        else if (ch.title.includes('Dissemination') || ch.title.includes('Utilization')) {
+            html += simpleTable([
+                'Objectives','Strategy','Audience','Resources','Timeline'
+            ], `chapters[${i}][table]`);
+        }
+
+        else if (ch.title.includes('Action Plan')) {
+            html += simpleTable([
+                'Strategy','Program','Activities','Task',
+                'Personnel Involved','Materials','Cost of Materials','Timeline'
+            ], `chapters[${i}][table]`, true);
+        }
+
+        else if (ch.title.includes('Financial Report')) {
+            html += simpleTable([
+                'Description','OR Number','Date','Amount'
+            ], `chapters[${i}][table]`, true);
+        }
+
+        /* ================= NORMAL TEXT CHAPTERS ================= */
+
+        else {
+            html += `
                 <textarea name="chapters[${i}][main]"
                           rows="4"
                           class="w-full border p-3 rounded-lg mb-3"></textarea>
-        `;
+            `;
 
-        if (ch.subs) {
-            ch.subs.forEach((sub, j) => {
-                html += `
-                    <label class="text-sm font-semibold">${sub}</label>
-                    <textarea name="chapters[${i}][subs][${j}]"
-                              rows="3"
-                              class="w-full border p-3 rounded-lg mb-3"></textarea>
-                `;
-            });
+            if (ch.subs) {
+                ch.subs.forEach((sub, j) => {
+                    html += `
+                        <label class="text-sm font-semibold">${sub}</label>
+                        <textarea name="chapters[${i}][subs][${j}]"
+                                  rows="3"
+                                  class="w-full border p-3 rounded-lg mb-3"></textarea>
+                    `;
+                });
+            }
         }
 
         html += `</div>`;
         chaptersDiv.insertAdjacentHTML('beforeend', html);
     });
+
+    bindAutoTotals();
 };
+
+/* ================= AUTO TOTAL CALC ================= */
+function bindAutoTotals() {
+    document.querySelectorAll('.cost-table').forEach(table => {
+        table.addEventListener('input', () => {
+            let grand = 0;
+            table.querySelectorAll('tbody tr').forEach(row => {
+                const qty = row.querySelector('.qty')?.value || 0;
+                const unit = row.querySelector('.unit-cost')?.value || 0;
+                const total = qty * unit;
+                row.querySelector('.total').value = total;
+                grand += total;
+            });
+
+            const gt = table.nextElementSibling?.querySelector('.grand-total');
+            if (gt) gt.innerText = grand.toFixed(2);
+        });
+    });
+}
 </script>
 @endsection
