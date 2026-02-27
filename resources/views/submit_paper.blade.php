@@ -79,7 +79,7 @@
             </div>
 
             <!-- ACTIONS -->
-            <input type="hidden" name="action" id="formAction" value="draft">
+<input type="hidden" name="action" id="formAction" value="draft">
 
 <div class="flex gap-4">
     <button type="submit" onclick="document.getElementById('formAction').value='draft'"
