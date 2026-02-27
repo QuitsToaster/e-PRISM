@@ -14,7 +14,7 @@ class Research extends Model
 
     protected $fillable = [
         'user_id', 'classification', 'research_type',
-        'school', 'school_id', 'title', 'chapters', 'status'
+        'school', 'school_id', 'title', 'chapters', 'status', 'feedback'
     ];
 
     protected $casts = [
