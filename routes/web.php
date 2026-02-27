@@ -46,3 +46,7 @@ Route::get('help-guides', function () {
 
 Route::get('/submit-paper', [ResearchController::class, 'create'])->name('submit.paper');
 Route::post('/submit-paper', [ResearchController::class, 'store']);
+
+Route::get('/my-submissions', [ResearchController::class, 'mySubmissions'])->name('my.submissions');
+Route::delete('/research/{id}', [ResearchController::class, 'destroy'])->name('research.delete');
+Route::get('/research/{id}', [ResearchController::class, 'show'])->name('research.show');

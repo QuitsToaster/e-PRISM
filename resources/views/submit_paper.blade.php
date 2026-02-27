@@ -79,10 +79,18 @@
             </div>
 
             <!-- ACTIONS -->
-            <div class="flex gap-4">
-                <button class="bg-gray-600 text-white px-6 py-3 rounded-lg">Save Draft</button>
-                <button class="bg-green-600 text-white px-6 py-3 rounded-lg">Submit</button>
-            </div>
+            <input type="hidden" name="action" id="formAction" value="draft">
+
+<div class="flex gap-4">
+    <button type="submit" onclick="document.getElementById('formAction').value='draft'"
+        class="bg-gray-600 text-white px-6 py-3 rounded-lg">
+        Save Draft
+    </button>
+    <button type="submit" onclick="document.getElementById('formAction').value='submitted'"
+        class="bg-green-600 text-white px-6 py-3 rounded-lg">
+        Submit
+    </button>
+</div>
         </form>
     </div>
 </div>
