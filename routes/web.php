@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ResearchController;
 
 // Landing Page
 Route::get('/', function () {
@@ -42,3 +43,6 @@ Route::put('profile', [AuthController::class, 'updateProfile'])->middleware('aut
 Route::get('help-guides', function () {
     return view('help_guides');
 })->middleware('auth')->name('help.guides');
+
+Route::get('/submit-paper', [ResearchController::class, 'create'])->name('submit.paper');
+Route::post('/submit-paper', [ResearchController::class, 'store']);

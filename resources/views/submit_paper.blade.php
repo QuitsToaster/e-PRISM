@@ -32,7 +32,7 @@
 
     <!-- FORM -->
     <div id="submissionForm" class="bg-white p-8 rounded-xl shadow-lg hidden">
-        <form method="POST" enctype="multipart/form-data" class="space-y-8">
+        <form method="POST" action="{{ route('submit.paper') }}" enctype="multipart/form-data" class="space-y-8">
             @csrf
 
             <input type="hidden" id="classification" name="classification">
