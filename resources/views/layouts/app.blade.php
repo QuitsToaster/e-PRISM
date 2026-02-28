@@ -54,13 +54,31 @@
 
     {{-- Top Navbar (non-admin only) --}}
     @if(!$user || $user->role !== 'admin')
-        <nav class="bg-indigo-600 p-4 text-white flex justify-between items-center">
-            <span class="font-bold text-xl">e-PRISM</span>
+        <nav class="bg-indigo-600 px-6 py-4 text-white flex justify-between items-center shadow-md">
+            
+            {{-- Left: System Name --}}
+            <span class="font-bold text-xl tracking-wide">
+                e-PRISM
+            </span>
+
+            {{-- Right: Logout --}}
+            @auth
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit"
+                        class="bg-white/10 hover:bg-red-500 hover:text-white 
+                               px-4 py-2 rounded-lg text-sm font-medium 
+                               transition duration-200">
+                    Logout
+                </button>
+            </form>
+            @endauth
+
         </nav>
     @endif
 
-    {{-- ✅ MAIN CONTENT (NO ml-64 HERE) --}}
-    <main class="flex-1 p-10">
+    {{-- MAIN CONTENT --}}
+    <main class="flex-1 p-10 bg-gray-50">
         @yield('content')
     </main>
 
