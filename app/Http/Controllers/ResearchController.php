@@ -125,7 +125,11 @@ public function adminDashboard()
 // List of submitted researches (table)
 public function adminSubmissionsList()
 {
-    $researches = Research::with(['proponents'])->where('status', 'submitted')->get();
+    $researches = Research::with(['user', 'proponents'])
+        ->where('status', 'submitted')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
     return view('admin_submissions', compact('researches'));
 }
 
