@@ -3,91 +3,90 @@
 @section('title', 'My Submissions')
 
 @section('content')
-<div class="max-w-6xl mx-auto mt-10">
+<div class="max-w-4xl mx-auto">
 
-    <!-- Page Header -->
-    <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-lg p-8 shadow-lg mb-10">
-        <h1 class="text-3xl md:text-4xl font-extrabold mb-2">My Submissions</h1>
-        <p class="text-lg md:text-xl text-green-100">
-            View all your research paper sections. Drafts are saved separately and submitted sections are shown below.
+    {{-- Page Header --}}
+    <div class="mb-10">
+        <h1 class="text-3xl font-semibold text-gray-800">My Submissions</h1>
+        <p class="text-gray-500 mt-1">
+            Manage your research drafts and submitted papers.
         </p>
     </div>
 
-    <!-- Drafts Section -->
-    <div class="mb-10">
-        <h2 class="text-2xl font-bold mb-4 text-gray-700">Drafts</h2>
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
-                <thead class="bg-gray-100">
-                    <tr>
-                        <th class="py-3 px-6 text-left font-medium text-gray-600">Title</th>
-                        <th class="py-3 px-6 text-left font-medium text-gray-600">Type</th>
-                        <th class="py-3 px-6 text-left font-medium text-gray-600">Last Updated</th>
-                        <th class="py-3 px-6 text-left font-medium text-gray-600">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100">
-                    @php $drafts = $researches->where('status', 'draft'); @endphp
-                    @forelse($drafts as $draft)
-                        <tr>
-                            <td class="py-4 px-6">{{ $draft->title }}</td>
-                            <td class="py-4 px-6">{{ ucfirst($draft->research_type) }} ({{ ucfirst($draft->classification) }})</td>
-                            <td class="py-4 px-6">{{ $draft->updated_at->format('Y-m-d') }}</td>
-                            <td class="py-4 px-6">
-                                <a href="{{ route('submit.paper', ['id' => $draft->id]) }}" class="text-indigo-600 hover:underline mr-3">Edit</a>
-                                <form method="POST" action="{{ route('research.delete', $draft->id) }}" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:underline">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4" class="py-4 px-6 text-center text-gray-400">No drafts yet.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+    {{-- ===================== DRAFTS ===================== --}}
+    <div class="mb-12">
+        <h2 class="text-lg font-semibold text-gray-700 mb-4">Drafts</h2>
+
+        @php $drafts = $researches->where('status', 'draft'); @endphp
+
+        @forelse($drafts as $draft)
+            <div class="flex justify-between items-center py-4 border-b">
+
+                {{-- Left --}}
+                <div>
+                    <h3 class="font-medium text-gray-800">
+                        {{ $draft->title }}
+                    </h3>
+                    <p class="text-sm text-gray-500">
+                        {{ ucfirst($draft->research_type) }} · {{ ucfirst($draft->classification) }} ·
+                        Last updated {{ $draft->updated_at->format('M d, Y') }}
+                    </p>
+                </div>
+
+                {{-- Right --}}
+                <div class="flex items-center gap-4 text-sm">
+                    <a href="{{ route('submit.paper', ['id' => $draft->id]) }}"
+                       class="text-indigo-600 hover:underline">
+                        Edit
+                    </a>
+
+                    <form method="POST" action="{{ route('research.delete', $draft->id) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                                class="text-red-500 hover:underline"
+                                onclick="return confirm('Delete this draft?')">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        @empty
+            <p class="text-sm text-gray-400">No drafts available.</p>
+        @endforelse
     </div>
 
-    <!-- Submitted Sections -->
+    {{-- ===================== SUBMITTED ===================== --}}
     <div>
-        <h2 class="text-2xl font-bold mb-4 text-gray-700">Submitted Sections</h2>
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
-                <thead class="bg-gray-100">
-                    <tr>
-                        <th class="py-3 px-6 text-left font-medium text-gray-600">Title</th>
-                        <th class="py-3 px-6 text-left font-medium text-gray-600">Type</th>
-                        <th class="py-3 px-6 text-left font-medium text-gray-600">Status</th>
-                        <th class="py-3 px-6 text-left font-medium text-gray-600">Submitted On</th>
-                        <th class="py-3 px-6 text-left font-medium text-gray-600">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100">
-                    @php $submitted = $researches->where('status', 'submitted'); @endphp
-                    @forelse($submitted as $s)
-                        <tr>
-                            <td class="py-4 px-6">{{ $s->title }}</td>
-                            <td class="py-4 px-6">{{ ucfirst($s->research_type) }} ({{ ucfirst($s->classification) }})</td>
-                            <td class="py-4 px-6">
-                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm">Submitted</span>
-                            </td>
-                            <td class="py-4 px-6">{{ $s->created_at->format('Y-m-d') }}</td>
-                            <td class="py-4 px-6">
-                                <a href="{{ route('research.show', $s->id) }}" class="text-gray-600 hover:underline">View</a>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="py-4 px-6 text-center text-gray-400">No submissions yet.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+        <h2 class="text-lg font-semibold text-gray-700 mb-4">Submitted</h2>
+
+        @php $submitted = $researches->where('status', 'submitted'); @endphp
+
+        @forelse($submitted as $s)
+            <div class="flex justify-between items-center py-4 border-b">
+
+                {{-- Left --}}
+                <div>
+                    <h3 class="font-medium text-gray-800">
+                        {{ $s->title }}
+                    </h3>
+                    <p class="text-sm text-gray-500">
+                        {{ ucfirst($s->research_type) }} · {{ ucfirst($s->classification) }} ·
+                        Submitted {{ $s->created_at->format('M d, Y') }}
+                    </p>
+                </div>
+
+                {{-- Right --}}
+                <a href="{{ route('research.show', $s->id) }}"
+                   class="text-sm text-gray-600 hover:text-indigo-600 hover:underline">
+                    View
+                </a>
+
+            </div>
+        @empty
+            <p class="text-sm text-gray-400">No submissions yet.</p>
+        @endforelse
     </div>
 
 </div>
