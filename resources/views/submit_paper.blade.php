@@ -72,11 +72,17 @@
             <div id="chapters" class="space-y-10"></div>
 
             <!-- ATTACHMENTS -->
-            <div>
-                <label class="font-semibold">Attachments (PDF only)</label>
-                <input type="file" name="attachments[]" multiple accept=".pdf"
-                       class="border p-2 rounded-lg w-full">
-            </div>
+<div>
+    <label class="font-semibold mb-2 block">
+        Required PDF Attachments
+    </label>
+
+    <p class="text-sm text-gray-500 mb-4">
+        Please upload the required documents based on your research type and status.
+    </p>
+
+    <div id="attachmentsSection" class="space-y-4"></div>
+</div>
 
             <!-- ACTIONS -->
 <input type="hidden" name="action" id="formAction" value="draft">
@@ -109,11 +115,13 @@ const form = document.getElementById('submissionForm');
 btnProposal.onclick = () => {
     classification.value = 'proposal';
     form.classList.remove('hidden');
+    loadAttachments();
 };
 
 btnCompleted.onclick = () => {
     classification.value = 'completed';
     form.classList.remove('hidden');
+    loadAttachments();
 };
 
 /* ADD PROPONENT WITH PHOTO */
@@ -233,6 +241,70 @@ const chapterMap = {
     }
 };
 
+const attachmentMap = {
+    proposal: {
+        action: [
+            'Documentation',
+            'Narrative Form'
+        ],
+        basic: [
+            'Documentation',
+            'Narrative Form'
+        ]
+    },
+    completed: {
+        action: [
+            'Copy of the Proposed Innovation / Intervention Material',
+            'Copy of the Approved Proposal',
+            'Copy of the Documentation',
+            'Copy of the Implementation (Accomplishment Report / Certificate of Implementation)',
+            'Copy of the Dissemination',
+            'Copy of the Adoption',
+            'Copy of the Utilization',
+            'Copy of the Liquidation'
+        ],
+        basic: [
+            'Copy of the Proposed Innovation / Intervention Material',
+            'Copy of the Approved Proposal',
+            'Copy of the Documentation',
+            'Copy of the Implementation (Accomplishment Report / Certificate of Implementation)',
+            'Copy of the Dissemination',
+            'Copy of the Adoption',
+            'Copy of the Utilization',
+            'Copy of the Liquidation'
+        ]
+    }
+};
+
+const attachmentsSection = document.getElementById('attachmentsSection');
+
+/* LOAD ATTACHMENTS */
+function loadAttachments() {
+    attachmentsSection.innerHTML = '';
+
+    if (!classification.value || !researchType.value) return;
+
+    const list = attachmentMap[classification.value][researchType.value];
+
+    list.forEach((label, index) => {
+        attachmentsSection.insertAdjacentHTML('beforeend', `
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    ${label} <span class="text-red-500">*</span>
+                </label>
+                <input 
+                    type="file"
+                    name="attachments[${index}]"
+                    accept=".pdf"
+                    required
+                    class="w-full border p-2 rounded-lg"
+                >
+            </div>
+        `);
+    });
+}
+
+
 /* =====================================================
    TABLE FUNCTIONS
 ===================================================== */
@@ -277,7 +349,7 @@ function addRow(btn) {
 }
 
 function costEstimateTable(namePrefix) {
-    return editableTable(['Activities','Item Description','Qty','Unit','Unit Cost','Total Amount'], namePrefix, true);
+    return editableTable(['Activities','Item Description','Qty','Unit','Unit Cost'], namePrefix, true);
 }
 
 /* =====================================================
@@ -339,6 +411,8 @@ researchType.onchange = () => {
         html += `</div>`;
         chaptersDiv.insertAdjacentHTML('beforeend', html);
     });
+
+    loadAttachments();
 };
 </script>
 @endsection
