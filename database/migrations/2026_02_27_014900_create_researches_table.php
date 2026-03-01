@@ -9,7 +9,7 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('researches', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('classification'); // proposal or completed
             $table->string('research_type'); // action or basic
             $table->string('school');

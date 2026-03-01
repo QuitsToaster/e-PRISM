@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('proponents', function (Blueprint $table) {
     $table->id();
-    $table->foreignId('research_id')->constrained()->cascadeOnDelete();
+    $table->foreignId('research_id')->constrained('researches')->cascadeOnDelete();
     $table->string('name');
     $table->string('position');
     $table->string('photo')->nullable();

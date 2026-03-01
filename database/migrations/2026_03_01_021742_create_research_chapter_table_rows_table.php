@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('research_chapter_table_rows', function (Blueprint $table) {
     $table->id();
-    $table->foreignId('research_chapter_table_id')->constrained()->cascadeOnDelete();
+    $table->foreignId('research_chapter_table_id')->constrained('research_chapter_tables')->cascadeOnDelete();
     $table->json('cells');
     $table->decimal('row_total', 12, 2)->nullable();
     $table->timestamps();

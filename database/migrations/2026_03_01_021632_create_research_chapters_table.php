@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('research_chapters', function (Blueprint $table) {
     $table->id();
-    $table->foreignId('research_id')->constrained()->cascadeOnDelete();
+    $table->foreignId('research_id')->constrained('researches')->cascadeOnDelete();
     $table->integer('chapter_number');
     $table->string('title');
     $table->longText('content')->nullable();

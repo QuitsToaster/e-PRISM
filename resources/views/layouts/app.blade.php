@@ -6,109 +6,199 @@
     <title>@yield('title') - e-PRISM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Scrollbar styling for smoother UX */
+        /* Custom gradient for red to blue */
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+        }
+        .bg-gradient-sidebar {
+            background: linear-gradient(180deg, #ef4444 0%, #3b82f6 100%);
+        }
+        .text-gradient-primary {
+            background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hover-gradient:hover {
+            background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+            color: white;
+        }
+        /* Scrollbar styling */
         ::-webkit-scrollbar {
             width: 8px;
         }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
         ::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 51, 160, 0.5); /* DEPED Blue */
+            background: linear-gradient(135deg, #ef4444, #3b82f6);
             border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #dc2626, #2563eb);
         }
     </style>
 </head>
 
-<body class="bg-gray-100 font-sans flex min-h-screen">
+<body class="bg-gray-50 font-sans flex min-h-screen">
 
 @php
     $user = auth()->user();
 @endphp
 
-{{-- Sidebar for Admin --}}
+{{-- Sidebar for Admin - Red to Blue Gradient --}}
 @if($user && $user->role === 'admin')
-<aside class="hidden md:flex md:flex-col w-64 bg-white border-r border-gray-200 p-6 shadow">
-    <div class="mb-8">
-        <h2 class="text-2xl font-bold text-blue-800">e-PRISM Admin</h2>
+<aside class="hidden md:flex md:flex-col w-64 bg-gradient-sidebar fixed left-0 top-0 h-full shadow-2xl">
+    <!-- Logo Area -->
+    <div class="p-6 border-b border-white/20">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                <span class="text-white text-lg font-bold">eP</span>
+            </div>
+            <div>
+                <span class="text-white font-bold block">e-PRISM</span>
+                <span class="text-white/60 text-xs">Admin Portal</span>
+            </div>
+        </div>
     </div>
 
-    <nav class="flex flex-col space-y-2 text-sm">
-        <a href="{{ route('admin.dashboard') }}" 
-           class="px-4 py-2 rounded hover:bg-blue-50 transition
-           @if(request()->routeIs('admin.dashboard')) bg-blue-100 font-semibold @endif">
-            Dashboard
-        </a>
+    <!-- Admin Profile -->
+    <div class="p-5 border-b border-white/20">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+            </div>
+            <div>
+                <p class="text-white text-sm font-medium">{{ $user->name ?? 'Admin' }}</p>
+                <p class="text-white/60 text-xs">Administrator</p>
+            </div>
+        </div>
+    </div>
 
-        <a href="{{ route('admin.submissions.list') }}" 
-           class="px-4 py-2 rounded hover:bg-blue-50 transition
-           @if(request()->routeIs('admin.submissions.list')) bg-blue-100 font-semibold @endif">
-            Submitted Researches
-        </a>
+    <!-- Navigation Menu -->
+    <nav class="flex-1 p-4">
+        <p class="text-white/40 text-xs uppercase tracking-wider mb-3 px-3">Main Menu</p>
+        <div class="space-y-1">
+            <a href="{{ route('admin.dashboard') }}" 
+               class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition
+               @if(request()->routeIs('admin.dashboard')) 
+                   text-white bg-white/20 
+               @else 
+                   text-white/70 hover:text-white hover:bg-white/10 
+               @endif">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                <span>Dashboard</span>
+            </a>
 
-        <a href="{{ route('profile') }}" class="px-4 py-2 rounded hover:bg-blue-50 transition">
-            Profile
-        </a>
+            <a href="{{ route('admin.submissions.list') }}" 
+               class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition
+               @if(request()->routeIs('admin.submissions.list')) 
+                   text-white bg-white/20 
+               @else 
+                   text-white/70 hover:text-white hover:bg-white/10 
+               @endif">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <span>Submitted Researches</span>
+            </a>
 
-        <form action="{{ route('logout') }}" method="POST" class="pt-4">
+            <a href="{{ route('profile') }}" 
+               class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/70 hover:text-white hover:bg-white/10 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                <span>Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Logout Button at Bottom -->
+    <div class="p-4 border-t border-white/20">
+        <form action="{{ route('logout') }}" method="POST">
             @csrf
-            <button type="submit" class="w-full text-left px-4 py-2 rounded text-red-600 hover:bg-red-50 transition">
-                Logout
+            <button type="submit" 
+                    class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm text-white/70 hover:text-white hover:bg-white/10 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                </svg>
+                <span>Logout</span>
             </button>
         </form>
-    </nav>
+    </div>
 </aside>
-@endif
 
-{{-- Mobile Top Navbar --}}
-<nav class="md:hidden bg-blue-700 px-6 py-4 flex justify-between items-center text-white shadow">
+<!-- Mobile Top Navbar - Red to Blue Gradient -->
+<nav class="md:hidden bg-gradient-primary px-6 py-4 flex justify-between items-center text-white shadow-lg">
     <span class="font-bold text-xl tracking-wide">e-PRISM</span>
 
-    <button id="mobile-menu-button" class="focus:outline-none">
+    <button id="mobile-menu-button" class="focus:outline-none p-2 hover:bg-white/10 rounded-lg transition">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
     </button>
 </nav>
 
-{{-- Mobile Menu --}}
-@if($user && $user->role === 'admin')
-<div id="menu-links" class="md:hidden bg-white border-b border-gray-200 shadow hidden">
-    <nav class="flex flex-col text-sm">
-        <a href="{{ route('admin.dashboard') }}" class="px-4 py-2 hover:bg-blue-50 transition">Dashboard</a>
-        <a href="{{ route('admin.submissions.list') }}" class="px-4 py-2 hover:bg-blue-50 transition">Submitted Researches</a>
-        <a href="{{ route('profile') }}" class="px-4 py-2 hover:bg-blue-50 transition">Profile</a>
-        <form action="{{ route('logout') }}" method="POST" class="px-4 py-2">
+<!-- Mobile Menu - Red to Blue Gradient -->
+<div id="menu-links" class="md:hidden bg-gradient-sidebar text-white shadow-lg hidden">
+    <nav class="flex flex-col py-2">
+        <a href="{{ route('admin.dashboard') }}" 
+           class="px-6 py-3 hover:bg-white/10 transition
+           @if(request()->routeIs('admin.dashboard')) bg-white/20 @endif">
+            Dashboard
+        </a>
+        <a href="{{ route('admin.submissions.list') }}" 
+           class="px-6 py-3 hover:bg-white/10 transition
+           @if(request()->routeIs('admin.submissions.list')) bg-white/20 @endif">
+            Submitted Researches
+        </a>
+        <a href="{{ route('profile') }}" class="px-6 py-3 hover:bg-white/10 transition">
+            Profile
+        </a>
+        <form action="{{ route('logout') }}" method="POST" class="px-6 py-3">
             @csrf
-            <button type="submit" class="text-red-600 hover:bg-red-50 transition w-full text-left rounded">Logout</button>
+            <button type="submit" class="w-full text-left text-white/80 hover:text-white transition">
+                Logout
+            </button>
         </form>
     </nav>
 </div>
 @endif
 
-{{-- Main Content --}}
-<div class="flex-1 flex flex-col">
+{{-- Top Navbar for non-admin users - Red to Blue Gradient --}}
+@if(!$user || $user->role !== 'admin')
+<nav class="bg-gradient-primary px-6 py-4 text-white flex justify-between items-center shadow-lg fixed top-0 left-0 right-0 z-10">
+    <span class="font-bold text-xl tracking-wide">e-PRISM</span>
 
-    {{-- Top Navbar for non-admin users --}}
-    @if(!$user || $user->role !== 'admin')
-    <nav class="bg-blue-700 px-6 py-4 text-white flex justify-between items-center shadow">
-        <span class="font-bold text-xl tracking-wide">e-PRISM</span>
+    @auth
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <button type="submit"
+                class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium transition">
+            Logout
+        </button>
+    </form>
+    @endauth
+</nav>
 
-        @auth
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit"
-                    class="bg-white/10 hover:bg-red-500 hover:text-white 
-                           px-4 py-2 rounded text-sm font-medium transition duration-200">
-                Logout
-            </button>
-        </form>
-        @endauth
-    </nav>
-    @endif
+<!-- Spacer for fixed navbar -->
+<div class="h-16"></div>
+@endif
 
-    {{-- Page Content --}}
-    <main class="flex-1 p-6 md:p-10 bg-gray-50 overflow-auto">
+{{-- Main Content - Adjust for admin sidebar --}}
+@if($user && $user->role === 'admin')
+    <main class="flex-1 ml-0 md:ml-64 p-6 md:p-8 bg-gray-50 min-h-screen">
         @yield('content')
     </main>
-</div>
+@else
+    <main class="flex-1 p-6 md:p-8 bg-gray-50">
+        @yield('content')
+    </main>
+@endif
 
 {{-- Mobile Menu Script --}}
 <script>

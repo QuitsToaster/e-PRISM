@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('research_chapter_tables', function (Blueprint $table) {
     $table->id();
-    $table->foreignId('research_chapter_id')->constrained()->cascadeOnDelete();
+    $table->foreignId('research_chapter_id')->constrained('research_chapters')->cascadeOnDelete();
     $table->json('headers'); // STORE HEADERS
     $table->boolean('has_total')->default(false);
     $table->timestamps();
