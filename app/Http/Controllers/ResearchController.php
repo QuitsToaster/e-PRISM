@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Research;
 use App\Models\Proponent;
 use App\Models\Attachment;
+use App\Models\ResearchChapter;
+use App\Models\ResearchChapterTable;
+use App\Models\ResearchChapterTableRow;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\IOFactory;
@@ -15,63 +19,119 @@ class ResearchController extends Controller
     public function create() {
         return view('submit_paper');
     }
-public function store(Request $request) {
-    $request->validate([
-        'classification' => 'required',
-        'research_type' => 'required',
-        'school' => 'required',
-        'title' => 'required',
-        'proponents.*.name' => 'required',
-        'proponents.*.position' => 'required',
-        'proponents.*.photo' => 'image|mimes:jpg,jpeg,png|max:2048',
-        'attachments.*' => 'mimes:pdf|max:5120'
-    ]);
+public function store(Request $request)
+{
+    DB::transaction(function () use ($request) {
 
-    // Get action from form (draft or submitted)
-    $status = $request->input('action');
-    if (!in_array($status, ['draft', 'submitted'])) {
-        $status = 'draft';
-    }
+        /* =========================================
+           CREATE RESEARCH
+        ==========================================*/
+        $research = Research::create([
+            'user_id'        => auth()->id(),
+            'classification' => $request->classification,
+            'research_type'  => $request->research_type,
+            'school'         => $request->school,
+            'school_id'      => $request->school_id,
+            'title'          => $request->title,
+            'status'         => $request->action
+        ]);
 
-    // Save main research
-    $research = Research::create([
-        'user_id' => auth()->id(),
-        'classification' => $request->classification,
-        'research_type' => $request->research_type,
-        'school' => $request->school,
-        'school_id' => $request->school_id,
-        'title' => $request->title,
-        'chapters' => $request->chapters ?? [],
-        'status' => $status
-    ]);
 
-    // Save proponents
-    if ($request->has('proponents')) {
-        foreach ($request->proponents as $p) {
-            $photoPath = isset($p['photo']) ? $p['photo']->store('proponents', 'public') : null;
-            Proponent::create([
-                'research_id' => $research->id,
-                'name' => $p['name'],
-                'position' => $p['position'],
-                'photo' => $photoPath
-            ]);
+        /* =========================================
+           SAVE PROPONENTS
+        ==========================================*/
+        if (!empty($request->proponents) && is_array($request->proponents)) {
+
+            foreach ($request->proponents as $proponent) {
+
+                if (empty($proponent['name']) || empty($proponent['position'])) {
+                    continue;
+                }
+
+                $photoPath = null;
+
+                if (isset($proponent['photo']) && $proponent['photo'] instanceof \Illuminate\Http\UploadedFile) {
+                    $photoPath = $proponent['photo']->store('proponents', 'public');
+                }
+
+                Proponent::create([
+                    'research_id' => $research->id,
+                    'name'        => $proponent['name'],
+                    'position'    => $proponent['position'],
+                    'photo'       => $photoPath
+                ]);
+            }
         }
-    }
 
-    // Save attachments
-    if ($request->hasFile('attachments')) {
-        foreach ($request->file('attachments') as $file) {
-            $filename = $file->store('attachments', 'public');
-            Attachment::create([
-                'research_id' => $research->id,
-                'filename' => $filename
-            ]);
+
+        /* =========================================
+           SAVE CHAPTERS
+        ==========================================*/
+        if (!empty($request->chapters) && is_array($request->chapters)) {
+
+            foreach ($request->chapters as $index => $chapter) {
+
+                $chapterTitle = $chapter['title'] ?? 'Chapter ' . ($index + 1);
+                $chapterContent = $chapter['content']
+                    ?? $chapter['main']
+                    ?? null;
+
+                $chapterModel = ResearchChapter::create([
+                    'research_id'    => $research->id,
+                    'chapter_number' => $index + 1,
+                    'title'          => $chapterTitle,
+                    'content'        => $chapterContent
+                ]);
+
+                /* ===== COST TABLE ===== */
+                if (isset($chapter['cost']) && is_array($chapter['cost'])) {
+
+                    $table = ResearchChapterTable::create([
+                        'research_chapter_id' => $chapterModel->id,
+                        'headers' => ['Activities','Item Description','Qty','Unit','Unit Cost'],
+                        'has_total' => true
+                    ]);
+
+                    foreach ($chapter['cost'] as $row) {
+
+                        if (!is_array($row)) continue;
+
+                        ResearchChapterTableRow::create([
+                            'research_chapter_table_id' => $table->id,
+                            'cells'     => $row,
+                            'row_total' => collect($row)
+                                ->filter(fn($v) => is_numeric($v))
+                                ->sum()
+                        ]);
+                    }
+                }
+            }
         }
-    }
 
-    return redirect()->route('dashboard')->with('success', 
-        $status === 'draft' ? 'Draft saved successfully!' : 'Research submitted successfully!'
-    );
+
+        /* =========================================
+           SAVE ATTACHMENTS (FIXED)
+        ==========================================*/
+        if ($request->hasFile('attachments')) {
+
+            foreach ($request->file('attachments') as $file) {
+
+                if (!$file) continue;
+
+                $filePath = $file->store('research_attachments', 'public');
+
+                Attachment::create([
+                    'research_id' => $research->id,
+                    'filename'    => $file->getClientOriginalName(), // ✅ MATCHES DB
+                    'filepath'    => $filePath                      // ✅ MATCHES DB
+                ]);
+            }
+        }
+
+    });
+
+    return redirect()->route('dashboard')
+        ->with('success', 'Saved successfully!');
 }
 
     public function mySubmissions()
@@ -101,7 +161,12 @@ public function destroy($id)
 
 public function show($id)
 {
-    $research = Research::with('proponents', 'attachments')->findOrFail($id);
+    $research = Research::with([
+        'proponents',
+        'attachments',
+        'chapters.tables.rows'
+    ])->findOrFail($id);
+
     return view('view_research', compact('research'));
 }
 
@@ -136,9 +201,12 @@ public function adminSubmissionsList()
 // Show the research detail in template format
 public function showAdminSubmission($id)
 {
-    $research = Research::with(['proponents', 'attachments'])->findOrFail($id);
+    $research = Research::with([
+        'proponents',
+        'attachments',
+        'chapters.tables.rows' // ✅ Fetch chapters with tables and rows
+    ])->findOrFail($id);
 
-    // Pass the research object to the Blade
     return view('admin_submission_detail', compact('research'));
 }
 

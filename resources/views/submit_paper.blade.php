@@ -377,20 +377,26 @@ function calculateTotals() {
 document.addEventListener('input', calculateTotals);
 
 /* =====================================================
-   LOAD CHAPTERS
+   LOAD CHAPTERS (ONLY CHANGE IS LABEL)
 ===================================================== */
 researchType.onchange = () => {
     chaptersDiv.innerHTML = '';
     if (!classification.value) return;
-    const list = chapterMap[classification.value][researchType.value];
-    list.forEach((ch, i) => {
-        let html = `<div><h3 class="font-bold text-lg mb-2">${ch.title}</h3>`;
 
-        /* TABULAR CHAPTERS */
+    const list = chapterMap[classification.value][researchType.value];
+
+    list.forEach((ch, i) => {
+        let html = `
+            <div class="mb-8">
+                <h3 class="font-bold text-lg mb-2">
+                    Chapter ${i + 1} – ${ch.title}
+                </h3>
+        `;
+
         if (ch.title.includes('Work Plan') || ch.title.includes('Timetable')) {
             html += editableTable(
-                ch.title.includes('Work Plan') 
-                    ? ['Strategies/Objectives','Program','Activities/Task','Materials','Financial','Human','Timeline'] 
+                ch.title.includes('Work Plan')
+                    ? ['Strategies/Objectives','Program','Activities/Task','Materials','Financial','Human','Timeline']
                     : ['Activities','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct'],
                 `chapters[${i}][table]`
             );

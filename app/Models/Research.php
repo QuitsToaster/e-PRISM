@@ -14,11 +14,7 @@ class Research extends Model
 
     protected $fillable = [
         'user_id', 'classification', 'research_type',
-        'school', 'school_id', 'title', 'chapters', 'status', 'feedback'
-    ];
-
-    protected $casts = [
-        'chapters' => 'array'
+        'school', 'school_id', 'title', 'status', 'feedback'
     ];
 
     public function proponents() {
@@ -29,8 +25,11 @@ class Research extends Model
         return $this->hasMany(Attachment::class);
     }
 
-    public function user()
-{
-    return $this->belongsTo(User::class);
-}
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function chapters() {
+        return $this->hasMany(ResearchChapter::class)->orderBy('chapter_number');
+    }
 }
