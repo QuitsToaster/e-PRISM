@@ -250,8 +250,13 @@ const chapterMap = {
                     "d. Data Analysis Plan"
                 ]
             },
-            { title: "Chapter V. Action Research Work Plan and Timelines (Tabular)" },
-            { title: "Chapter VI. Cost Estimates (Tabular)" },
+            { title: "Chapter V. Action Research Work Plan and Timelines" },
+            { 
+                title: "Chapter VI. Cost Estimates (Tabular)",
+                isCustomTable: true,
+                tableColumns: ['Strategy', 'Program', 'Activity', 'Task', 'Personal Involve', 'Materials', 'Cost of Material', 'Timeline'],
+                hasTotal: true
+            },
             { title: "Chapter VII. Plans for Disseminate and Utilization" },
             { title: "Chapter VIII. References" }
         ],
@@ -270,7 +275,12 @@ const chapterMap = {
                 ]
             },
             { title: "Chapter VI. Timetable (Tabular)" },
-            { title: "Chapter VII. Cost Estimates (Tabular)" },
+            { 
+                title: "Chapter VII. Cost Estimates (Tabular)",
+                isCustomTable: true,
+                tableColumns: ['Strategy', 'Program', 'Activity', 'Task', 'Personal Involve', 'Materials', 'Cost of Material', 'Timeline'],
+                hasTotal: true
+            },
             { title: "Chapter VIII. Plans for Dissemination and Advocacy Plan" },
             { title: "Chapter IX. References" }
         ]
@@ -295,7 +305,12 @@ const chapterMap = {
             { title: "Reflection" },
             { title: "Chapter VI. Action Plan to Sustain the Utilization of the Intervention Material" },
             { title: "Chapter VII. References" },
-            { title: "Chapter VIII. Financial Report (Tabular)" }
+            { 
+                title: "Chapter VIII. Financial Report (Tabular)",
+                isFinancialReport: true,
+                tableColumns: ['Description', 'OR Number', 'Date', 'Amount'],
+                hasTotal: false
+            }
         ],
         basic: [
             { title: "Chapter I. Introduction and Rationale" },
@@ -317,7 +332,12 @@ const chapterMap = {
             { title: "Reflection" },
             { title: "Chapter VII. Plans for Dissemination and Advocacy Plan" },
             { title: "Chapter VIII. References" },
-            { title: "Chapter IX. Financial Report" }
+            { 
+                title: "Chapter IX. Financial Report (Tabular)",
+                isFinancialReport: true,
+                tableColumns: ['Description', 'OR Number', 'Date', 'Amount'],
+                hasTotal: false
+            }
         ]
     }
 };
@@ -407,33 +427,50 @@ function tableRow(columns, namePrefix, hasTotal, index) {
         <td class="border border-gray-200 px-3 py-2">
             <input name="${namePrefix}[${index}][${colIndex}]" class="w-full border border-gray-300 p-2 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition" />
         </td>`).join('');
-    return `
-        <tr>
-            ${cells}
-            ${hasTotal ? `<td class="border border-gray-200 px-3 py-2"><input class="row-total w-full border border-gray-300 p-2 rounded bg-gray-50" readonly></td>` : ''}
-            <td class="border border-gray-200 px-3 py-2 text-center">
-                <button type="button" onclick="this.closest('tr').remove(); calculateTotals();" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition">✕</button>
-            </td>
-        </tr>
-    `;
+    
+    if (hasTotal) {
+        return `
+            <tr>
+                ${cells}
+                <td class="border border-gray-200 px-3 py-2"><input class="row-total w-full border border-gray-300 p-2 rounded bg-gray-50" readonly></td>
+                <td class="border border-gray-200 px-3 py-2 text-center">
+                    <button type="button" onclick="this.closest('tr').remove(); calculateTotals();" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition">✕</button>
+                </td>
+            </tr>
+        `;
+    } else {
+        return `
+            <tr>
+                ${cells}
+                <td class="border border-gray-200 px-3 py-2 text-center">
+                    <button type="button" onclick="this.closest('tr').remove();" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition">✕</button>
+                </td>
+            </tr>
+        `;
+    }
 }
 
 function addRow(btn) {
     const wrapper = btn.closest('.table-wrapper');
     const tbody = wrapper.querySelector('tbody');
     const prefix = wrapper.dataset.prefix;
-    const colCount = wrapper.querySelectorAll('thead th').length - 2; // exclude total and remove column
+    const hasTotal = !!wrapper.querySelector('.grand-total');
+    const colCount = wrapper.querySelectorAll('thead th').length - (hasTotal ? 2 : 1); // exclude total and remove column or just remove column
     const index = tbody.children.length;
     const columns = Array(colCount).fill('');
-    tbody.insertAdjacentHTML('beforeend', tableRow(columns, prefix, !!wrapper.querySelector('.grand-total'), index));
+    tbody.insertAdjacentHTML('beforeend', tableRow(columns, prefix, hasTotal, index));
 }
 
 function costEstimateTable(namePrefix) {
-    return editableTable(['Activities','Item Description','Qty','Unit','Unit Cost'], namePrefix, true);
+    return editableTable(['Strategy','Program','Activity','Task','Personal Involve','Materials','Cost of Material','Timeline'], namePrefix, true);
+}
+
+function financialReportTable(namePrefix) {
+    return editableTable(['Description', 'OR Number', 'Date', 'Amount'], namePrefix, false);
 }
 
 /* =====================================================
-   AUTO TOTAL CALC
+   AUTO TOTAL CALC - Only for tables with total
 ===================================================== */
 function calculateTotals() {
     document.querySelectorAll('.table-wrapper').forEach(wrapper => {
@@ -441,13 +478,12 @@ function calculateTotals() {
         if (!grandTotalElem) return;
         let grand = 0;
         wrapper.querySelectorAll('tbody tr').forEach(row => {
-            const qty = parseFloat(row.querySelector('input[name*="[3]"]')?.value) || 0;
-            const unit = parseFloat(row.querySelector('input[name*="[4]"]')?.value) || 0;
+            // For cost estimate table, calculate total from Cost of Material column (index 6)
+            const costOfMaterial = parseFloat(row.querySelector('input[name*="[6]"]')?.value) || 0;
             const totalInput = row.querySelector('.row-total');
             if (totalInput) {
-                const total = qty * unit;
-                totalInput.value = total.toFixed(2);
-                grand += total;
+                totalInput.value = costOfMaterial.toFixed(2);
+                grand += costOfMaterial;
             }
         });
         grandTotalElem.innerText = grand.toFixed(2);
@@ -473,7 +509,11 @@ researchType.onchange = () => {
                 </h3>
         `;
 
-        if (ch.title.includes('Work Plan') || ch.title.includes('Timetable')) {
+        if (ch.isFinancialReport) {
+            html += financialReportTable(`chapters[${i}][financial]`);
+        } else if (ch.isCustomTable) {
+            html += editableTable(ch.tableColumns, `chapters[${i}][cost]`, ch.hasTotal);
+        } else if (ch.title.includes('Work Plan') || ch.title.includes('Timetable')) {
             html += editableTable(
                 ch.title.includes('Work Plan')
                     ? ['Strategies/Objectives','Program','Activities/Task','Materials','Financial','Human','Timeline']
