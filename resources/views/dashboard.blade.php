@@ -13,20 +13,28 @@
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
+    .bg-gradient-header {
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    }
+    .border-gradient-card {
+        border: 2px solid transparent;
+        background: linear-gradient(white, white) padding-box,
+                    linear-gradient(135deg, #ef4444 0%, #3b82f6 100%) border-box;
+    }
 </style>
 
 <div class="max-w-7xl mx-auto mt-8 px-4">
-    <!-- Welcome Header - White card with border -->
-    <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-8">
-        <div class="flex items-center gap-3">
-            <div class="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <!-- Welcome Header - Gradient area matching admin side -->
+    <div class="bg-gradient-header rounded-xl p-6 mb-8 border border-gray-100">
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-14 bg-gradient-primary rounded-xl flex items-center justify-center shadow-md">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                 </svg>
             </div>
             <div>
-                <h1 class="text-2xl font-semibold text-gray-800">Welcome, {{ auth()->user()->name }}!</h1>
-                <p class="text-sm text-gray-500">
+                <h1 class="text-2xl font-semibold text-gradient-primary">Welcome, {{ auth()->user()->name }}!</h1>
+                <p class="text-sm text-gray-600 mt-1">
                     This is your e-PRISM dashboard. Submit your research papers section by section, track progress, and receive feedback from the admin.
                 </p>
             </div>
@@ -36,7 +44,7 @@
     <!-- Header with gradient bar -->
     <div class="mb-6">
         <div class="flex items-center gap-2 mb-1">
-            <div class="w-1.5 h-7 bg-gradient-primary rounded-full"></div>
+            <div class="bg-gradient-primary rounded-full"></div>
             <h2 class="text-xl font-semibold text-gray-800">Quick Actions</h2>
         </div>
         <p class="text-sm text-gray-500 ml-3">Manage your research submissions</p>
@@ -135,10 +143,10 @@
 
     </div>
 
-    <!-- Recent Activity Section -->
-    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mt-6">
-        <div class="flex items-center gap-2 mb-4">
-            <div class="w-1.5 h-6 bg-gradient-primary rounded-full"></div>
+    <!-- Recent Activity Section with Gradient Border -->
+    <div class="border-gradient-card rounded-xl bg-white p-6 shadow-sm mt-6">
+        <div class="flex items-center gap-0 mb-4">
+            <div class="bg-gradient-primary rounded-full"></div>
             <h3 class="font-semibold text-gray-700">Recent Activity</h3>
         </div>
         <div class="space-y-3">

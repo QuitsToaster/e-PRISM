@@ -30,8 +30,8 @@
     <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
         <div class="text-xl font-bold text-white">e-PRISM</div>
         <div class="space-x-6 text-sm text-white/90">
-            <a href="#" class="hover:text-white">Platform</a>
             <a href="#" class="hover:text-white">Features</a>
+            <a href="#" class="hover:text-white">Feedback</a>
             <a href="#" class="hover:text-white">About</a>
         </div>
     </div>
@@ -49,7 +49,7 @@
             
             <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
                 <span class="text-gradient-primary">Streamline</span> your research<br>
-                submissions with e-PRISM
+                submissions with <br><span class="text-gradient-primary">e-PRISM</span>
             </h1>
             
             <p class="text-lg text-gray-600 mb-8 leading-relaxed">
@@ -70,7 +70,7 @@
 
             <!-- SDO Santiago (replaced MIT/Stanford/Harvard) -->
             <div class="mt-8 pt-6 border-t border-gray-100">
-                <p class="text-xs text-gray-400 mb-3">SDO SANTIAGO</p>
+                <p class="text-xs text-gray-400 mb-3">SDO SANTIAGO CITY</p>
                 <div class="flex gap-6 items-center">
                     <div class="text-sm text-gray-700 font-medium">Schools Division Office</div>
                 </div>
@@ -80,6 +80,11 @@
         <!-- Right column - visual with red to blue gradient -->
         <div class="hidden md:block bg-gradient-to-br from-red-50 via-white to-blue-50 p-8 rounded-2xl border border-gray-100 shadow-lg">
             <div class="space-y-4">
+                <!-- Review status -->
+                <div class="flex items-center gap-3 text-xs mt-2">
+                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span class="text-gray-500">Digitalizing Research, Empowering Progress.</span>
+                </div>
                 <!-- Section headers with gradient numbers -->
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center text-white font-medium text-sm">01</div>
@@ -97,12 +102,6 @@
                     <div class="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center text-white font-medium text-sm">04</div>
                     <div class="flex-1 h-10 bg-white rounded-lg border border-gray-200 px-3 flex items-center text-sm text-gray-600">Discussion & Conclusion</div>
                 </div>
-
-                <!-- Review status -->
-                <div class="flex items-center gap-2 text-xs mt-4">
-                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span class="text-gray-500">Under review by admin</span>
-                </div>
             </div>
         </div>
     </div>
@@ -111,7 +110,7 @@
 <!-- Footer with red to blue gradient -->
 <footer class="bg-gradient-primary py-6 mt-12">
     <div class="max-w-6xl mx-auto px-4 text-center text-sm text-white">
-        © 2024 e-PRISM · Research Management Platform
+        © 2026 e-PRISM · Research Management Platform
     </div>
 </footer>
 

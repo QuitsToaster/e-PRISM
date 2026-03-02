@@ -13,44 +13,72 @@
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
+    .bg-gradient-header {
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    }
+    .border-gradient-card {
+        border: 2px solid transparent;
+        background: linear-gradient(white, white) padding-box,
+                    linear-gradient(135deg, #ef4444 0%, #3b82f6 100%) border-box;
+    }
+    .hover-card-effect {
+        transition: all 0.3s ease;
+    }
+    .hover-card-effect:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+    }
 </style>
 
 <div class="max-w-4xl mx-auto mt-8 px-4">
-    {{-- Header with gradient bar --}}
-    <div class="mb-6 flex items-center justify-between">
-        <div>
-            <div class="flex items-center gap-2 mb-1">
-                <div class="w-1.5 h-7 bg-gradient-primary rounded-full"></div>
-                <h1 class="text-2xl font-semibold text-gray-800">My Submissions</h1>
+    {{-- Header with colored horizontal area matching dashboard pattern --}}
+    <div class="bg-gradient-header rounded-xl p-6 mb-8 border border-gray-100">
+        <div class="flex items-center justify-between">
+            <div>
+                <div class="flex items-center gap-2 mb-1">
+                    <div class="bg-gradient-primary rounded-full"></div>
+                    <h1 class="text-2xl font-semibold text-gradient-primary">My Submissions</h1>
+                </div>
+                <p class="text-sm text-gray-600 ml-3">Manage your research drafts and submitted papers</p>
             </div>
-            <p class="text-sm text-gray-500 ml-3">Manage your research drafts and submitted papers</p>
-        </div>
-        <div class="w-9 h-9 bg-gradient-primary rounded-lg flex items-center justify-center shadow-sm">
-            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-            </svg>
+            <div class="flex items-center gap-3">
+                <div class="text-right">
+                    <p class="text-xs text-gray-500">Total</p>
+                    <p class="text-xs font-medium text-gradient-primary">{{ $researches->count() }} researches</p>
+                </div>
+                <div class="w-9 h-9 bg-gradient-primary rounded-lg flex items-center justify-center shadow-sm">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+            </div>
         </div>
     </div>
 
     {{-- ===================== DRAFTS ===================== --}}
     <div class="mb-8">
         <div class="flex items-center gap-2 mb-4">
-            <div class="w-1.5 h-6 bg-gradient-primary rounded-full"></div>
-            <h2 class="text-lg font-semibold text-gray-700">Drafts</h2>
+            <div class="bg-gradient-primary rounded-full"></div>
+            <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-gradient-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+                <h2 class="text-lg font-semibold text-gradient-primary">Drafts</h2>
+            </div>
         </div>
 
         @php $drafts = $researches->where('status', 'draft'); @endphp
 
         @forelse($drafts as $draft)
-            <div class="bg-orange-50 rounded-xl border border-orange-200 p-5 mb-3 shadow-sm hover:shadow-md transition">
+            <div class="border-gradient-card rounded-xl bg-white p-5 mb-3 shadow-sm hover-card-effect">
                 <div class="flex justify-between items-center">
                     {{-- Left --}}
                     <div class="flex-1">
                         <div class="flex items-center gap-2 mb-1">
-                            <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                            <span class="w-2 h-2 bg-gradient-primary rounded-full"></span>
                             <h3 class="font-medium text-gray-800">{{ $draft->title }}</h3>
                         </div>
-                        <p class="text-xs text-orange-600 ml-4">
+                        <p class="text-xs text-gradient-primary ml-4">
                             {{ ucfirst($draft->research_type) }} · {{ ucfirst($draft->classification) }} ·
                             Last updated {{ $draft->updated_at->format('M d, Y') }}
                         </p>
@@ -59,14 +87,14 @@
                     {{-- Right --}}
                     <div class="flex items-center gap-3 text-sm ml-4">
                         <a href="{{ route('submit.paper', ['id' => $draft->id]) }}"
-                           class="inline-flex items-center gap-1 text-orange-600 hover:text-orange-700 font-medium">
+                           class="inline-flex items-center gap-1 text-gradient-primary hover:opacity-80 font-medium">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                             </svg>
                             Edit
                         </a>
 
-                        <form method="POST" action="{{ route('research.delete', $draft->id) }}">
+                        <form method="POST" action="{{ route('research.delete', $draft->id) }}" class="inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit"
@@ -82,9 +110,9 @@
                 </div>
             </div>
         @empty
-            <div class="bg-gray-50 rounded-xl border border-gray-200 p-8 text-center">
+            <div class="border-gradient-card rounded-xl bg-white p-8 text-center">
                 <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                 </svg>
                 <p class="text-sm text-gray-400">No drafts available.</p>
             </div>
@@ -94,8 +122,13 @@
     {{-- ===================== SUBMITTED ===================== --}}
     <div>
         <div class="flex items-center gap-2 mb-4">
-            <div class="w-1.5 h-6 bg-gradient-primary rounded-full"></div>
-            <h2 class="text-lg font-semibold text-gray-700">Submitted</h2>
+            <div class="bg-gradient-primary rounded-full"></div>
+            <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-gradient-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h2 class="text-lg font-semibold text-green-600">Submitted</h2>
+            </div>
         </div>
 
         @php $submitted = $researches->where('status', 'submitted'); @endphp
@@ -117,7 +150,7 @@
 
                     {{-- Right --}}
                     <a href="{{ route('research.show', $s->id) }}"
-                       class="inline-flex items-center gap-1 text-green-600 hover:text-green-700 font-medium text-sm ml-4">
+                    class="inline-flex items-center gap-1 text-green-600 hover:text-green-700 font-medium text-sm ml-4">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
@@ -129,7 +162,7 @@
         @empty
             <div class="bg-gray-50 rounded-xl border border-gray-200 p-8 text-center">
                 <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 <p class="text-sm text-gray-400">No submissions yet.</p>
             </div>

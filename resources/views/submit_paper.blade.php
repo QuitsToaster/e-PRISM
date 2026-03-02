@@ -3,45 +3,118 @@
 @section('title', 'Submit Research')
 
 @section('content')
-<div class="max-w-6xl mx-auto mt-10">
+<style>
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+    }
+    .text-gradient-primary {
+        background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .bg-gradient-header {
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    }
+    .border-gradient-card {
+        border: 2px solid transparent;
+        background: linear-gradient(white, white) padding-box,
+                    linear-gradient(135deg, #ef4444 0%, #3b82f6 100%) border-box;
+    }
+    .border-gradient-separator {
+        border: 0;
+        height: 1px;
+        background: linear-gradient(90deg, #ef4444 0%, #3b82f6 100%);
+    }
+    .border-gradient-table {
+        border: 2px solid transparent;
+        background: linear-gradient(white, white) padding-box,
+                    linear-gradient(135deg, #ef4444 0%, #3b82f6 100%) border-box;
+    }
+    .hover-card-effect {
+        transition: all 0.3s ease;
+    }
+    .hover-card-effect:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+    }
+    th, td {
+        position: relative;
+    }
+    th:not(:last-child)::after, td:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 25%;
+        height: 50%;
+        width: 1px;
+        background: linear-gradient(180deg, #ef4444 0%, #3b82f6 100%);
+    }
+</style>
 
-    <!-- HEADER -->
-    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl p-8 shadow-lg mb-10">
-        <h1 class="text-3xl font-extrabold">Submit Research</h1>
-        <p class="text-indigo-100 mt-2">
-            Choose what you want to submit, then complete the required fields.
-        </p>
+<div class="max-w-6xl mx-auto mt-8 px-4">
+    <!-- HEADER - Matching dashboard pattern -->
+    <div class="bg-gradient-header rounded-xl p-6 mb-8 border border-gray-100">
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-14 bg-gradient-primary rounded-xl flex items-center justify-center shadow-md">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-2xl font-semibold text-gradient-primary">Submit Research</h1>
+                <p class="text-sm text-gray-600 mt-1">
+                    Choose what you want to submit, then complete the required fields.
+                </p>
+            </div>
+        </div>
     </div>
 
-    <!-- STEP 1 -->
-    <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-        <h2 class="text-xl font-bold mb-4">What would you like to submit?</h2>
+    <!-- STEP 1 - Selection Cards -->
+    <div class="border-gradient-card rounded-xl bg-white p-6 shadow-sm hover-card-effect mb-8">
+        <h2 class="text-lg font-semibold text-gradient-primary mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8s-9-3.582-9-8 4.03-8 9-8 9 3.582 9 8z"></path>
+            </svg>
+            What would you like to submit?
+        </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <button id="btnProposal"
-                class="border-2 border-indigo-500 text-indigo-600 p-6 rounded-xl hover:bg-indigo-50 font-semibold">
-                Research Proposal
+                class="border-2 border-red-200 bg-red-50 text-red-700 p-6 rounded-xl hover:shadow-md transition-all duration-200 hover:-translate-y-1 font-semibold">
+                <div class="flex flex-col items-center gap-2">
+                    <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Research Proposal
+                </div>
             </button>
 
             <button id="btnCompleted"
-                class="border-2 border-green-500 text-green-600 p-6 rounded-xl hover:bg-green-50 font-semibold">
-                Completed Research
+                class="border-2 border-blue-200 bg-blue-50 text-blue-700 p-6 rounded-xl hover:shadow-md transition-all duration-200 hover:-translate-y-1 font-semibold">
+                <div class="flex flex-col items-center gap-2">
+                    <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Completed Research
+                </div>
             </button>
         </div>
     </div>
 
-    <!-- FORM -->
-    <div id="submissionForm" class="bg-white p-8 rounded-xl shadow-lg hidden">
+    <!-- FORM - Card with Gradient Border -->
+    <div id="submissionForm" class="border-gradient-card rounded-xl bg-white p-6 shadow-sm hidden">
         <form method="POST" action="{{ route('submit.paper') }}" enctype="multipart/form-data" class="space-y-8">
             @csrf
 
             <input type="hidden" id="classification" name="classification">
 
             <!-- TYPE -->
-            <div>
-                <label class="font-semibold">Type of Research</label>
+            <div class="mb-6 pb-6 relative">
+                <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-red-600 to-blue-600"></div>
+                <label class="block text-sm font-semibold text-gradient-primary mb-3">Type of Research</label>
                 <select id="researchType" name="research_type"
-                        class="w-full mt-2 border p-3 rounded-lg">
+                        class="w-full border border-gray-300 p-3 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition">
                     <option selected disabled>Select type</option>
                     <option value="action">Action Research</option>
                     <option value="basic">Basic Research</option>
@@ -49,54 +122,62 @@
             </div>
 
             <!-- PROPONENTS -->
-            <div>
-                <label class="font-semibold mb-2 block">Proponents (Max 5)</label>
+            <div class="mb-6 pb-6 relative">
+                <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-red-600 to-blue-600"></div>
+                <label class="block text-sm font-semibold text-gradient-primary mb-3">Proponents (Max 5)</label>
 
                 <div id="proponents" class="space-y-4"></div>
 
                 <button type="button" id="addProponent"
-                        class="mt-3 bg-indigo-600 text-white px-4 py-2 rounded-lg">
+                        class="mt-3 bg-gradient-primary text-white px-4 py-2 rounded-lg hover:opacity-90 transition">
                     + Add Proponent
                 </button>
             </div>
 
-            <!-- COMMON -->
-            <div class="grid md:grid-cols-2 gap-4">
-                <input name="school" placeholder="School / Station" class="border p-3 rounded-lg">
-                <input name="school_id" placeholder="School ID (Optional)" class="border p-3 rounded-lg">
-            </div>
+            <!-- COMMON FIELDS -->
+            <div class="mb-6 pb-6 relative">
+                <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-red-600 to-blue-600"></div>
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <input name="school" placeholder="School / Station" 
+                           class="border border-gray-300 p-3 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition">
+                    <input name="school_id" placeholder="School ID (Optional)" 
+                           class="border border-gray-300 p-3 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition">
+                </div>
 
-            <input name="title" placeholder="Title of the Study" class="border p-3 rounded-lg w-full">
+                <input name="title" placeholder="Title of the Study" 
+                       class="border border-gray-300 p-3 rounded-lg w-full focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition">
+            </div>
 
             <!-- CHAPTERS -->
             <div id="chapters" class="space-y-10"></div>
 
             <!-- ATTACHMENTS -->
-<div>
-    <label class="font-semibold mb-2 block">
-        Required PDF Attachments
-    </label>
+            <div class="mb-6 pb-6 relative">
+                <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-red-600 to-blue-600"></div>
+                <label class="block text-sm font-semibold text-gradient-primary mb-3">
+                    Required PDF Attachments
+                </label>
 
-    <p class="text-sm text-gray-500 mb-4">
-        Please upload the required documents based on your research type and status.
-    </p>
+                <p class="text-sm text-gray-500 mb-4">
+                    Please upload the required documents based on your research type and status.
+                </p>
 
-    <div id="attachmentsSection" class="space-y-4"></div>
-</div>
+                <div id="attachmentsSection" class="space-y-4"></div>
+            </div>
 
             <!-- ACTIONS -->
-<input type="hidden" name="action" id="formAction" value="draft">
+            <input type="hidden" name="action" id="formAction" value="draft">
 
-<div class="flex gap-4">
-    <button type="submit" onclick="document.getElementById('formAction').value='draft'"
-        class="bg-gray-600 text-white px-6 py-3 rounded-lg">
-        Save Draft
-    </button>
-    <button type="submit" onclick="document.getElementById('formAction').value='submitted'"
-        class="bg-green-600 text-white px-6 py-3 rounded-lg">
-        Submit
-    </button>
-</div>
+            <div class="flex gap-4 pt-4">
+                <button type="submit" onclick="document.getElementById('formAction').value='draft'"
+                    class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition font-medium shadow-sm">
+                    Save Draft
+                </button>
+                <button type="submit" onclick="document.getElementById('formAction').value='submitted'"
+                    class="bg-gradient-primary text-white px-6 py-3 rounded-lg hover:opacity-90 transition font-medium shadow-sm">
+                    Submit
+                </button>
+            </div>
         </form>
     </div>
 </div>
@@ -112,39 +193,39 @@ const classification = document.getElementById('classification');
 const form = document.getElementById('submissionForm');
 
 /* SHOW FORM */
-btnProposal.onclick = () => {
+document.getElementById('btnProposal').onclick = () => {
     classification.value = 'proposal';
     form.classList.remove('hidden');
     loadAttachments();
 };
 
-btnCompleted.onclick = () => {
+document.getElementById('btnCompleted').onclick = () => {
     classification.value = 'completed';
     form.classList.remove('hidden');
     loadAttachments();
 };
 
 /* ADD PROPONENT WITH PHOTO */
-addProponent.onclick = () => {
+document.getElementById('addProponent').onclick = () => {
     if (proponentCount >= maxProponents) return;
 
     proponentsDiv.insertAdjacentHTML('beforeend', `
-        <div class="border rounded-lg p-4 relative bg-gray-50">
+        <div class="border-gradient-card rounded-lg p-4 relative bg-gray-50">
             <div class="grid md:grid-cols-3 gap-3">
                 <input name="proponents[${proponentCount}][name]"
                        placeholder="Full Name"
-                       class="border p-2 rounded" required>
+                       class="border border-gray-300 p-2 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition" required>
                 <input name="proponents[${proponentCount}][position]"
                        placeholder="Position (Plantilla)"
-                       class="border p-2 rounded" required>
+                       class="border border-gray-300 p-2 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition" required>
                 <input type="file"
                        name="proponents[${proponentCount}][photo]"
                        accept="image/*"
-                       class="border p-2 rounded" required>
+                       class="border border-gray-300 p-2 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition" required>
             </div>
             <button type="button"
                     onclick="this.parentElement.remove(); proponentCount--;"
-                    class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-sm">
+                    class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-sm hover:bg-red-600 transition">
                 Remove
             </button>
         </div>
@@ -289,7 +370,7 @@ function loadAttachments() {
     list.forEach((label, index) => {
         attachmentsSection.insertAdjacentHTML('beforeend', `
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">
+                <label class="block text-sm font-medium text-gradient-primary mb-1">
                     ${label} <span class="text-red-500">*</span>
                 </label>
                 <input 
@@ -297,42 +378,41 @@ function loadAttachments() {
                     name="attachments[${index}]"
                     accept=".pdf"
                     required
-                    class="w-full border p-2 rounded-lg"
+                    class="w-full border border-gray-300 p-2 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
                 >
             </div>
         `);
     });
 }
 
-
 /* =====================================================
-   TABLE FUNCTIONS
+   TABLE FUNCTIONS WITH GRADIENT BORDERS
 ===================================================== */
 function editableTable(columns, namePrefix, hasTotal = false) {
-    const cols = columns.map(c => `<th class="border px-3 py-2">${c}</th>`).join('');
+    const cols = columns.map(c => `<th class="border border-gray-200 px-3 py-2 text-gradient-primary">${c}</th>`).join('');
     return `
-        <div class="table-wrapper" data-prefix="${namePrefix}">
-            <table class="w-full border-collapse border mt-4">
-                <thead><tr>${cols}${hasTotal ? `<th class="border px-3 py-2">Total</th>` : ''}<th></th></tr></thead>
+        <div class="table-wrapper border-gradient-table rounded-lg p-4" data-prefix="${namePrefix}">
+            <table class="w-full border-collapse">
+                <thead><tr>${cols}${hasTotal ? `<th class="border border-gray-200 px-3 py-2 text-gradient-primary">Total</th>` : ''}<th class="border border-gray-200 px-3 py-2"></th></tr></thead>
                 <tbody>${tableRow(columns, namePrefix, hasTotal, 0)}</tbody>
             </table>
-            <button type="button" class="mt-2 bg-indigo-600 text-white px-4 py-2 rounded" onclick="addRow(this)">+ Add Row</button>
-            ${hasTotal ? `<div class="text-right font-bold mt-2">Grand Total: <span class="grand-total">0</span></div>` : ''}
+            <button type="button" class="mt-3 bg-gradient-primary text-white px-4 py-2 rounded-lg hover:opacity-90 transition" onclick="addRow(this)">+ Add Row</button>
+            ${hasTotal ? `<div class="text-right font-bold mt-3 text-gradient-primary">Grand Total: <span class="grand-total">0</span></div>` : ''}
         </div>
     `;
 }
 
 function tableRow(columns, namePrefix, hasTotal, index) {
     const cells = columns.map((_, colIndex) => `
-        <td class="border px-3 py-2">
-            <input name="${namePrefix}[${index}][${colIndex}]" class="w-full border p-2 rounded" />
+        <td class="border border-gray-200 px-3 py-2">
+            <input name="${namePrefix}[${index}][${colIndex}]" class="w-full border border-gray-300 p-2 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition" />
         </td>`).join('');
     return `
         <tr>
             ${cells}
-            ${hasTotal ? `<td class="border px-3 py-2"><input class="row-total w-full border p-2 rounded" readonly></td>` : ''}
-            <td class="border px-3 py-2 text-center">
-                <button type="button" onclick="this.closest('tr').remove(); calculateTotals();" class="bg-red-500 text-white px-2 py-1 rounded">✕</button>
+            ${hasTotal ? `<td class="border border-gray-200 px-3 py-2"><input class="row-total w-full border border-gray-300 p-2 rounded bg-gray-50" readonly></td>` : ''}
+            <td class="border border-gray-200 px-3 py-2 text-center">
+                <button type="button" onclick="this.closest('tr').remove(); calculateTotals();" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition">✕</button>
             </td>
         </tr>
     `;
@@ -377,7 +457,7 @@ function calculateTotals() {
 document.addEventListener('input', calculateTotals);
 
 /* =====================================================
-   LOAD CHAPTERS (ONLY CHANGE IS LABEL)
+   LOAD CHAPTERS
 ===================================================== */
 researchType.onchange = () => {
     chaptersDiv.innerHTML = '';
@@ -387,9 +467,9 @@ researchType.onchange = () => {
 
     list.forEach((ch, i) => {
         let html = `
-            <div class="mb-8">
-                <h3 class="font-bold text-lg mb-2">
-                    Chapter ${i + 1} – ${ch.title}
+            <div class="border-gradient-card rounded-lg bg-white p-5 mb-6">
+                <h3 class="font-bold text-lg text-gradient-primary mb-4">
+                    ${ch.title}
                 </h3>
         `;
 
@@ -405,11 +485,11 @@ researchType.onchange = () => {
         } else if (ch.title.includes('Dissemination') || ch.title.includes('Utilization')) {
             html += editableTable(['Objectives','Strategy','Audience','Resources','Timeline'], `chapters[${i}][table]`);
         } else {
-            html += `<textarea name="chapters[${i}][main]" rows="4" class="w-full border p-3 rounded-lg mb-3"></textarea>`;
+            html += `<textarea name="chapters[${i}][main]" rows="4" class="w-full border border-gray-300 p-3 rounded-lg mb-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"></textarea>`;
             if (ch.subs) {
                 ch.subs.forEach((sub, j) => {
-                    html += `<label class="text-sm font-semibold">${sub}</label>
-                             <textarea name="chapters[${i}][subs][${j}]" rows="3" class="w-full border p-3 rounded-lg mb-3"></textarea>`;
+                    html += `<label class="text-sm font-semibold text-gradient-primary block mt-3">${sub}</label>
+                             <textarea name="chapters[${i}][subs][${j}]" rows="3" class="w-full border border-gray-300 p-3 rounded-lg mb-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"></textarea>`;
                 });
             }
         }

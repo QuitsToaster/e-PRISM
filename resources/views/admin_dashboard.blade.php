@@ -13,12 +13,32 @@
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
+    .hover-card-effect {
+        transition: all 0.3s ease;
+    }
+    .hover-card-effect:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+    }
+    .bg-gradient-header {
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    }
+    .bg-gradient-overview {
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+    }
+    .border-gradient-overview {
+        border: 1px solid transparent;
+        background: linear-gradient(white, white) padding-box,
+                    linear-gradient(135deg, #ef4444 0%, #3b82f6 100%) border-box;
+    }
 </style>
 
-<!-- Header -->
-<div class="mb-6">
-    <h1 class="text-2xl font-semibold text-gradient-primary">Dashboard</h1>
-    <p class="text-sm text-gray-500">Welcome to e-PRISM admin panel</p>
+<!-- Header with colored horizontal area -->
+<div class="bg-gradient-header rounded-xl p-6 mb-6 border border-gray-100">
+    <div>
+        <h1 class="text-2xl font-semibold text-gradient-primary">Dashboard</h1>
+        <p class="text-sm text-gray-600 mt-1">Welcome to e-PRISM admin panel</p>
+    </div>
 </div>
 
 {{-- Success Message --}}
@@ -28,10 +48,10 @@
     </div>
 @endif
 
-{{-- Summary Cards --}}
+{{-- Summary Cards with Hover Effects --}}
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-    <!-- Card 1 -->
-    <div class="bg-red-50 rounded-xl border border-red-200 p-5">
+    <!-- Card 1 - Researches (Red) -->
+    <div class="bg-red-50 rounded-xl border border-red-200 p-5 hover-card-effect cursor-pointer">
         <div class="flex items-center gap-3 mb-2">
             <div class="w-10 h-10 bg-red-200 rounded-lg flex items-center justify-center">
                 <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -44,8 +64,8 @@
         <p class="text-xs text-red-500 mt-1">Total submitted</p>
     </div>
 
-    <!-- Card 2 -->
-    <div class="bg-blue-50 rounded-xl border border-blue-200 p-5">
+    <!-- Card 2 - Proponents (Blue) -->
+    <div class="bg-blue-50 rounded-xl border border-blue-200 p-5 hover-card-effect cursor-pointer">
         <div class="flex items-center gap-3 mb-2">
             <div class="w-10 h-10 bg-blue-200 rounded-lg flex items-center justify-center">
                 <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,28 +78,30 @@
         <p class="text-xs text-blue-500 mt-1">Active users</p>
     </div>
 
-    <!-- Card 3 -->
-    <div class="bg-purple-50 rounded-xl border border-purple-200 p-5">
+    <!-- Card 3 - Attachments (Green) -->
+    <div class="bg-violet-50 rounded-xl border border-violet-200 p-5 hover-card-effect cursor-pointer">
         <div class="flex items-center gap-3 mb-2">
-            <div class="w-10 h-10 bg-purple-200 rounded-lg flex items-center justify-center">
-                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-10 h-10 bg-violet-200 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
                 </svg>
             </div>
-            <span class="text-xs font-medium text-purple-600">ATTACHMENTS</span>
+            <span class="text-xs font-medium text-violet-600">ATTACHMENTS</span>
         </div>
         <p class="text-2xl font-semibold text-gray-800">{{ $totalAttachments ?? 0 }}</p>
-        <p class="text-xs text-purple-500 mt-1">Files uploaded</p>
+        <p class="text-xs text-violet-500 mt-1">Files uploaded</p>
     </div>
 </div>
 
-{{-- Chart Section --}}
-<div class="bg-white rounded-xl border border-gray-200 p-5 mb-6">
+{{-- Chart Section with colored background and gradient border --}}
+<div class="bg-gradient-overview rounded-xl p-5 mb-6 border-gradient-overview">
     <div class="flex items-center justify-between mb-4">
-        <h2 class="text-sm font-medium text-gray-700">Submissions Overview</h2>
-        <span class="text-xs text-gray-400">Last 30 days</span>
+        <h2 class="text-sm font-medium text-gray-700">
+            <span class="bg-gradient-to-r from-red-600 to-blue-600 bg-clip-text text-transparent font-semibold">Submissions Overview</span>
+        </h2>
+        <span class="text-xs text-gray-500">Last 30 days</span>
     </div>
-    <div class="h-48 flex items-center justify-center bg-gradient-to-r from-red-50 to-blue-50 rounded-lg border border-dashed border-gray-200">
+    <div class="h-48 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-lg border border-gray-200">
         <p class="text-sm text-gray-400">Chart area</p>
     </div>
 </div>

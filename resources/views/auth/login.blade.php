@@ -29,7 +29,7 @@
     <!-- Back to home link with red to blue gradient -->
     <div class="absolute top-6 left-6">
         <a href="/" class="text-sm bg-gradient-primary text-white px-4 py-2 rounded-lg shadow-md hover:opacity-90 transition flex items-center gap-1 font-medium">
-            <span class="text-lg">←</span> Back to e-PRISM
+            <span class="text-lg"></span> Back to e-PRISM
         </a>
     </div>
 
