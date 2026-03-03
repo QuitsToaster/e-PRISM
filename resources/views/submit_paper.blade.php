@@ -66,7 +66,7 @@
     }
     /* Add proper top padding to account for fixed navbar */
     .content-wrapper {
-        padding-top: 6rem;
+        padding-top: 5rem;
     }
 </style>
 
@@ -100,9 +100,10 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <button id="btnProposal"
-                class="border-2 border-[#2563eb]/20 bg-[#2563eb]/10 text-[#2563eb] p-6 rounded-xl hover:shadow-md transition-all duration-200 hover:-translate-y-1 font-semibold">
+                class="option-btn border-2 border-[#1a1a1a]/20 bg-[#1a1a1a]/10 text-[#1a1a1a] p-6 rounded-xl hover:shadow-md transition-all duration-200 hover:-translate-y-1 font-semibold"
+                data-type="proposal">
                 <div class="flex flex-col items-center gap-2">
-                    <svg class="w-8 h-8 text-[#2563eb]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-8 h-8 text-[#1a1a1a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
                     Research Proposal
@@ -110,7 +111,8 @@
             </button>
 
             <button id="btnCompleted"
-                class="border-2 border-[#1a1a1a]/20 bg-[#1a1a1a]/10 text-[#1a1a1a] p-6 rounded-xl hover:shadow-md transition-all duration-200 hover:-translate-y-1 font-semibold">
+                class="option-btn border-2 border-[#1a1a1a]/20 bg-[#1a1a1a]/10 text-[#1a1a1a] p-6 rounded-xl hover:shadow-md transition-all duration-200 hover:-translate-y-1 font-semibold"
+                data-type="completed">
                 <div class="flex flex-col items-center gap-2">
                     <svg class="w-8 h-8 text-[#1a1a1a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -119,6 +121,34 @@
                 </div>
             </button>
         </div>
+
+        <script>
+            const buttons = document.querySelectorAll('.option-btn');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove blue styling from all buttons
+                    buttons.forEach(btn => {
+                        btn.classList.remove('border-[#2563eb]', 'bg-[#2563eb]/10', 'text-[#2563eb]');
+                        btn.classList.add('border-[#1a1a1a]/20', 'bg-[#1a1a1a]/10', 'text-[#1a1a1a]');
+                        
+                        // Update SVG color
+                        const svg = btn.querySelector('svg');
+                        svg.classList.remove('text-[#2563eb]');
+                        svg.classList.add('text-[#1a1a1a]');
+                    });
+                    
+                    // Add blue styling to clicked button
+                    this.classList.remove('border-[#1a1a1a]/20', 'bg-[#1a1a1a]/10', 'text-[#1a1a1a]');
+                    this.classList.add('border-[#2563eb]', 'bg-[#2563eb]/10', 'text-[#2563eb]');
+                    
+                    // Update SVG color
+                    const svg = this.querySelector('svg');
+                    svg.classList.remove('text-[#1a1a1a]');
+                    svg.classList.add('text-[#2563eb]');
+                });
+            });
+        </script>
     </div>
 
     <!-- FORM - Card with Gradient Border -->
