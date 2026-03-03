@@ -6,21 +6,21 @@
     <title>@yield('title') - e-PRISM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom gradient for red to blue */
+        /* Custom gradient for vibrant dark blue to black */
         .bg-gradient-primary {
-            background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%);
         }
         .bg-gradient-sidebar {
-            background: linear-gradient(180deg, #ef4444 0%, #3b82f6 100%);
+            background: linear-gradient(180deg, #2563eb 0%, #1a1a1a 100%);
         }
         .text-gradient-primary {
-            background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         .hover-gradient:hover {
-            background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%);
             color: white;
         }
         /* Scrollbar styling */
@@ -31,11 +31,11 @@
             background: #f1f1f1;
         }
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #ef4444, #3b82f6);
+            background: linear-gradient(135deg, #2563eb, #1a1a1a);
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #dc2626, #2563eb);
+            background: linear-gradient(135deg, #3b82f6, #2d2d2d);
         }
     </style>
 </head>
@@ -46,7 +46,7 @@
     $user = auth()->user();
 @endphp
 
-{{-- Sidebar for Admin - Red to Blue Gradient --}}
+{{-- Sidebar for Admin - Vibrant Dark Blue to Black Gradient --}}
 @if($user && $user->role === 'admin')
 <aside class="hidden md:flex md:flex-col w-64 bg-gradient-sidebar fixed left-0 top-0 h-full shadow-2xl">
     <!-- Logo Area -->
@@ -117,12 +117,12 @@
         </div>
     </nav>
 
-    <!-- Logout Button at Bottom -->
+    <!-- Logout Button at Bottom - Pure Red -->
     <div class="p-4 border-t border-white/20">
         <form action="{{ route('logout') }}" method="POST">
             @csrf
             <button type="submit" 
-                    class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm text-white/70 hover:text-white hover:bg-white/10 transition">
+                    class="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm bg-red-600 hover:bg-red-700 text-white transition shadow-md">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                 </svg>
@@ -132,7 +132,7 @@
     </div>
 </aside>
 
-<!-- Mobile Top Navbar - Red to Blue Gradient -->
+<!-- Mobile Top Navbar - Vibrant Dark Blue to Black Gradient -->
 <nav class="md:hidden bg-gradient-primary px-6 py-4 flex justify-between items-center text-white shadow-lg">
     <span class="font-bold text-xl tracking-wide">e-PRISM</span>
 
@@ -143,7 +143,7 @@
     </button>
 </nav>
 
-<!-- Mobile Menu - Red to Blue Gradient -->
+<!-- Mobile Menu - Vibrant Dark Blue to Black Gradient -->
 <div id="menu-links" class="md:hidden bg-gradient-sidebar text-white shadow-lg hidden">
     <nav class="flex flex-col py-2">
         <a href="{{ route('admin.dashboard') }}" 
@@ -159,31 +159,126 @@
         <a href="{{ route('profile') }}" class="px-6 py-3 hover:bg-white/10 transition">
             Profile
         </a>
-        <form action="{{ route('logout') }}" method="POST" class="px-6 py-3">
-            @csrf
-            <button type="submit" class="w-full text-left text-white/80 hover:text-white transition">
-                Logout
-            </button>
-        </form>
+        <div class="px-6 py-3">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-md">
+                    Logout
+                </button>
+            </form>
+        </div>
     </nav>
 </div>
-@endif
 
-{{-- Top Navbar for non-admin users - Red to Blue Gradient --}}
-@if(!$user || $user->role !== 'admin')
-<nav class="bg-gradient-primary px-6 py-4 text-white flex justify-between items-center shadow-lg fixed top-0 left-0 right-0 z-10">
-    <span class="font-bold text-xl tracking-wide">e-PRISM</span>
+{{-- ==================== REGULAR USER NAVIGATION ==================== --}}
+@elseif($user && $user->role !== 'admin')
 
-    @auth
-    <form action="{{ route('logout') }}" method="POST">
-        @csrf
-        <button type="submit"
-                class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium transition">
-            Logout
-        </button>
-    </form>
-    @endauth
+{{-- Top Navbar for Regular Users with Navigation Links - Vibrant Dark Blue to Black Gradient --}}
+<nav class="bg-gradient-primary px-6 py-4 text-white shadow-lg fixed top-0 left-0 right-0 z-10">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-8">
+            <span class="font-bold text-xl tracking-wide">e-PRISM</span>
+            
+            {{-- Navigation Links for Regular Users --}}
+            <div class="hidden md:flex items-center gap-4">
+                <a href="{{ route('dashboard') }}" 
+                   class="px-3 py-2 rounded-lg text-sm font-medium transition
+                   @if(request()->routeIs('dashboard')) bg-white/20 @else hover:bg-white/10 @endif">
+                    Dashboard
+                </a>
+                
+                <a href="{{ route('submit.paper') }}" 
+                   class="px-3 py-2 rounded-lg text-sm font-medium transition
+                   @if(request()->routeIs('submit.paper')) bg-white/20 @else hover:bg-white/10 @endif">
+                    Submit Research
+                </a>
+                
+                <a href="{{ route('my.submissions') }}" 
+                   class="px-3 py-2 rounded-lg text-sm font-medium transition
+                   @if(request()->routeIs('my.submissions')) bg-white/20 @else hover:bg-white/10 @endif">
+                    My Submissions
+                </a>
+                
+                <a href="{{ route('profile') }}" 
+                   class="px-3 py-2 rounded-lg text-sm font-medium transition
+                   @if(request()->routeIs('profile')) bg-white/20 @else hover:bg-white/10 @endif">
+                    Profile
+                </a>
+                
+                <a href="{{ route('help.guides') }}" 
+                   class="px-3 py-2 rounded-lg text-sm font-medium transition
+                   @if(request()->routeIs('help.guides')) bg-white/20 @else hover:bg-white/10 @endif">
+                    Help & Guides
+                </a>
+            </div>
+        </div>
+
+        {{-- User Info and Logout - Pure Red --}}
+        <div class="flex items-center gap-4">
+            <div class="hidden md:block text-right">
+                <p class="text-xs text-white/80">{{ auth()->user()->email }}</p>
+                <p class="text-xs text-white/60">{{ ucfirst(auth()->user()->role) }}</p>
+            </div>
+            
+            <form action="{{ route('logout') }}" method="POST" class="hidden md:block">
+                @csrf
+                <button type="submit"
+                        class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-sm font-medium transition shadow-md text-white">
+                    Logout
+                </button>
+            </form>
+
+            {{-- Mobile Menu Button --}}
+            <button id="mobile-menu-button" class="md:hidden focus:outline-none p-2 hover:bg-white/10 rounded-lg transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
 </nav>
+
+<!-- Mobile Menu for Regular Users - Vibrant Dark Blue to Black Gradient -->
+<div id="menu-links" class="md:hidden bg-gradient-primary text-white shadow-lg hidden">
+    <nav class="flex flex-col py-2">
+        <a href="{{ route('dashboard') }}" 
+           class="px-6 py-3 hover:bg-white/10 transition
+           @if(request()->routeIs('dashboard')) bg-white/20 @endif">
+            Dashboard
+        </a>
+        <a href="{{ route('submit.paper') }}" 
+           class="px-6 py-3 hover:bg-white/10 transition
+           @if(request()->routeIs('submit.paper')) bg-white/20 @endif">
+            Submit Research
+        </a>
+        <a href="{{ route('my.submissions') }}" 
+           class="px-6 py-3 hover:bg-white/10 transition
+           @if(request()->routeIs('my.submissions')) bg-white/20 @endif">
+            My Submissions
+        </a>
+        <a href="{{ route('profile') }}" 
+           class="px-6 py-3 hover:bg-white/10 transition
+           @if(request()->routeIs('profile')) bg-white/20 @endif">
+            Profile
+        </a>
+        <a href="{{ route('help.guides') }}" 
+           class="px-6 py-3 hover:bg-white/10 transition
+           @if(request()->routeIs('help.guides')) bg-white/20 @endif">
+            Help & Guides
+        </a>
+        <div class="px-6 py-3 border-t border-white/20 mt-2">
+            <div class="mb-3 text-sm text-white/80">
+                {{ auth()->user()->email }}
+            </div>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-md">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </nav>
+</div>
 
 <!-- Spacer for fixed navbar -->
 <div class="h-16"></div>
@@ -209,6 +304,15 @@
             menu.classList.toggle('hidden');
         });
     }
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        if (menu && !menu.classList.contains('hidden')) {
+            if (!btn.contains(event.target) && !menu.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        }
+    });
 </script>
 
 </body>

@@ -6,23 +6,23 @@
     <title>Sign Up - e-PRISM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom gradient for red to blue */
+        /* Custom gradient for vibrant dark blue to black */
         .bg-gradient-primary {
-            background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%);
         }
         .border-gradient-primary {
             border: 2px solid transparent;
             background: linear-gradient(white, white) padding-box,
-                        linear-gradient(135deg, #ef4444 0%, #3b82f6 100%) border-box;
+                        linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%) border-box;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-red-50 to-blue-50 flex items-center justify-center min-h-screen p-4">
+<body class="bg-gradient-to-br from-[#2563eb]/10 to-[#1a1a1a]/10 flex items-center justify-center min-h-screen p-4">
 
-    <!-- Back to home link with red to blue gradient -->
+    <!-- Back to home link with border only -->
     <div class="absolute top-6 left-6">
-        <a href="/" class="text-sm bg-gradient-primary text-white px-4 py-2 rounded-lg shadow-md hover:opacity-90 transition flex items-center gap-1 font-medium">
-            <span class="text-lg"></span> Back to e-PRISM
+        <a href="/" class="text-sm bg-transparent text-[#2563eb] px-4 py-1 rounded-lg border-2 border-[#2563eb] hover:bg-[#2563eb] hover:text-white transition flex items-center gap-1 font-medium">
+            <span class="text-lg">←</span> Back
         </a>
     </div>
 
@@ -33,7 +33,7 @@
                 <span class="text-white text-2xl font-bold">eP</span>
             </div>
             <h2 class="text-2xl font-bold">
-                <span class="bg-gradient-to-r from-red-600 to-blue-600 bg-clip-text text-transparent">
+                <span class="bg-gradient-to-r from-[#2563eb] to-[#1a1a1a] bg-clip-text text-transparent">
                     Create an account
                 </span>
             </h2>
@@ -47,11 +47,11 @@
             <div class="mb-4">
                 <label class="block mb-2 text-sm font-medium text-gray-700">Full name</label>
                 <input type="text" name="name" value="{{ old('name') }}" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition" 
                     placeholder="John Doe"
                     required>
                 @error('name') 
-                    <div class="mt-1 text-red-600 text-sm">{{ $message }}</div>
+                    <div class="mt-1 text-[#2563eb] text-sm">{{ $message }}</div>
                 @enderror
             </div>
 
@@ -59,11 +59,11 @@
             <div class="mb-4">
                 <label class="block mb-2 text-sm font-medium text-gray-700">Email address</label>
                 <input type="email" name="email" value="{{ old('email') }}" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition" 
                     placeholder="you@example.com"
                     required>
                 @error('email') 
-                    <div class="mt-1 text-red-600 text-sm">{{ $message }}</div>
+                    <div class="mt-1 text-[#2563eb] text-sm">{{ $message }}</div>
                 @enderror
             </div>
 
@@ -71,11 +71,11 @@
             <div class="mb-4">
                 <label class="block mb-2 text-sm font-medium text-gray-700">Password</label>
                 <input type="password" name="password" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition" 
                     placeholder="••••••••"
                     required>
                 @error('password') 
-                    <div class="mt-1 text-red-600 text-sm">{{ $message }}</div>
+                    <div class="mt-1 text-[#2563eb] text-sm">{{ $message }}</div>
                 @enderror
             </div>
 
@@ -83,7 +83,7 @@
             <div class="mb-6">
                 <label class="block mb-2 text-sm font-medium text-gray-700">Confirm password</label>
                 <input type="password" name="password_confirmation" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition" 
                     placeholder="••••••••"
                     required>
             </div>
@@ -91,12 +91,12 @@
             <!-- Terms and conditions -->
             <div class="mb-6">
                 <div class="flex items-start">
-                    <input type="checkbox" id="terms" class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" required>
+                    <input type="checkbox" id="terms" class="mt-1 w-4 h-4 text-[#2563eb] border-gray-300 rounded focus:ring-[#2563eb]" required>
                     <label for="terms" class="ml-2 text-sm text-gray-600">
                         I agree to the 
-                        <a href="#" class="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-blue-600 hover:opacity-80">Terms of Service</a> 
+                        <a href="#" class="text-transparent bg-clip-text bg-gradient-to-r from-[#2563eb] to-[#1a1a1a] hover:opacity-80">Terms of Service</a> 
                         and 
-                        <a href="#" class="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-blue-600 hover:opacity-80">Privacy Policy</a>
+                        <a href="#" class="text-transparent bg-clip-text bg-gradient-to-r from-[#2563eb] to-[#1a1a1a] hover:opacity-80">Privacy Policy</a>
                     </label>
                 </div>
             </div>
@@ -120,14 +120,14 @@
         <!-- Login link -->
         <p class="text-center text-sm text-gray-600">
             Already have an account? 
-            <a href="{{ route('login.form') }}" class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-blue-600 hover:opacity-80">
+            <a href="{{ route('login.form') }}" class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#2563eb] to-[#1a1a1a] hover:opacity-80">
                 Sign in
             </a>
         </p>
 
         <!-- Footer note -->
         <p class="text-center text-xs text-gray-400 mt-6">
-            © e-PRISM · Research Management Platform
+            © 2026 e-PRISM · Research Management Platform
         </p>
     </div>
 

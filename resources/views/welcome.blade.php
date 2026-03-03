@@ -6,12 +6,12 @@
     <title>e-PRISM · Research Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom gradient for red to blue */
+        /* Custom gradient for vibrant dark blue to black */
         .bg-gradient-primary {
-            background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%);
         }
         .text-gradient-primary {
-            background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -19,13 +19,13 @@
         .border-gradient-primary {
             border: 2px solid transparent;
             background: linear-gradient(white, white) padding-box,
-                        linear-gradient(135deg, #ef4444 0%, #3b82f6 100%) border-box;
+                        linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%) border-box;
         }
     </style>
 </head>
 <body class="bg-white">
 
-<!-- Navigation with red to blue gradient header -->
+<!-- Navigation with vibrant dark blue to black gradient header -->
 <nav class="bg-gradient-primary">
     <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
         <div class="text-xl font-bold text-white">e-PRISM</div>
@@ -43,8 +43,8 @@
         <!-- Left column -->
         <div>
             <!-- Gradient badge -->
-            <div class="inline-block px-3 py-1 bg-gradient-to-r from-red-50 to-blue-50 text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-blue-600 text-sm font-medium rounded-full mb-6 border border-red-100">
-                🔬 Research Submission Platform
+            <div class="inline-block px-3 py-1 bg-gradient-to-r from-[#2563eb]/10 to-[#1a1a1a]/10 text-sm font-medium rounded-full mb-6 border border-[#2563eb]/20">
+                <span class="bg-gradient-to-r from-[#2563eb] to-[#1a1a1a] bg-clip-text text-transparent">🔬 Research Submission Platform</span>
             </div>
             
             <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
@@ -63,12 +63,12 @@
                 <a href="{{ route('signup.form') }}" class="px-6 py-3 bg-gradient-primary text-white rounded-lg hover:opacity-90 transition font-medium text-center shadow-md hover:shadow-lg">
                     Get started
                 </a>
-                <a href="{{ route('login.form') }}" class="px-6 py-3 border-gradient-primary text-gray-700 rounded-lg hover:bg-gradient-to-r hover:from-red-50 hover:to-blue-50 transition font-medium text-center">
+                <a href="{{ route('login.form') }}" class="px-6 py-3 border-gradient-primary text-gray-700 rounded-lg hover:bg-gradient-to-r hover:from-[#2563eb]/10 hover:to-[#1a1a1a]/10 transition font-medium text-center">
                     Sign in
                 </a>
             </div>
 
-            <!-- SDO Santiago (replaced MIT/Stanford/Harvard) -->
+            <!-- SDO Santiago -->
             <div class="mt-8 pt-6 border-t border-gray-100">
                 <p class="text-xs text-gray-400 mb-3">SDO SANTIAGO CITY</p>
                 <div class="flex gap-6 items-center">
@@ -77,12 +77,12 @@
             </div>
         </div>
         
-        <!-- Right column - visual with red to blue gradient -->
-        <div class="hidden md:block bg-gradient-to-br from-red-50 via-white to-blue-50 p-8 rounded-2xl border border-gray-100 shadow-lg">
+        <!-- Right column - visual with vibrant dark blue to black gradient -->
+        <div class="hidden md:block bg-gradient-to-br from-[#2563eb]/5 via-white to-[#1a1a1a]/5 p-8 rounded-2xl border border-gray-100 shadow-lg">
             <div class="space-y-4">
                 <!-- Review status -->
                 <div class="flex items-center gap-3 text-xs mt-2">
-                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div class="w-2 h-2 bg-[#2563eb] rounded-full"></div>
                     <span class="text-gray-500">Digitalizing Research, Empowering Progress.</span>
                 </div>
                 <!-- Section headers with gradient numbers -->
@@ -107,7 +107,7 @@
     </div>
 </div>
 
-<!-- Footer with red to blue gradient -->
+<!-- Footer with vibrant dark blue to black gradient -->
 <footer class="bg-gradient-primary py-6 mt-12">
     <div class="max-w-6xl mx-auto px-4 text-center text-sm text-white">
         © 2026 e-PRISM · Research Management Platform

@@ -4,22 +4,23 @@
 
 @section('content')
 <style>
+    /* Custom gradient for vibrant dark blue to black */
     .bg-gradient-primary {
-        background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+        background: linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%);
     }
     .text-gradient-primary {
-        background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+        background: linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
     .bg-gradient-header {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(26, 26, 26, 0.1) 100%);
     }
     .border-gradient-card {
         border: 2px solid transparent;
         background: linear-gradient(white, white) padding-box,
-                    linear-gradient(135deg, #ef4444 0%, #3b82f6 100%) border-box;
+                    linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%) border-box;
     }
     .hover-card-effect {
         transition: all 0.3s ease;
@@ -38,11 +39,13 @@
         top: 25%;
         height: 50%;
         width: 1px;
-        background: linear-gradient(180deg, #ef4444 0%, #3b82f6 100%);
+        background: linear-gradient(180deg, #2563eb 0%, #1a1a1a 100%);
     }
 </style>
 
-<div class="max-w-6xl mx-auto mt-8 px-4">
+<!-- Add top padding to account for fixed navbar -->
+<div class="pt-20 max-w-6xl mx-auto px-4">
+
     {{-- Header with colored gradient area --}}
     <div class="bg-gradient-header rounded-xl p-6 mb-6 border border-gray-100">
         <div class="flex items-center justify-between">
@@ -148,7 +151,7 @@
                 @foreach($chapter->tables ?? [] as $table)
                     <div class="overflow-x-auto mb-4">
                         <table class="min-w-full border border-gray-200 rounded-lg">
-                            <thead class="bg-gradient-to-r from-red-50 to-blue-50">
+                            <thead class="bg-gradient-to-r from-[#2563eb]/10 to-[#1a1a1a]/10">
                                 <tr>
                                     @foreach($table->headers ?? [] as $header)
                                         <th class="border border-gray-200 px-4 py-2 text-left text-sm font-medium text-gradient-primary">{{ $header }}</th>
@@ -162,7 +165,7 @@
                                 @php $grandTotal = 0; @endphp
 
                                 @foreach($table->rows ?? [] as $row)
-                                    <tr class="hover:bg-gradient-to-r hover:from-red-50 hover:to-blue-50">
+                                    <tr class="hover:bg-gradient-to-r hover:from-[#2563eb]/5 hover:to-[#1a1a1a]/5">
                                         @foreach($row->cells ?? [] as $cell)
                                             <td class="border border-gray-200 px-4 py-2 text-sm text-gray-600">{{ $cell }}</td>
                                         @endforeach
@@ -179,7 +182,7 @@
 
                             @if($table->has_total)
                                 <tfoot>
-                                    <tr class="bg-gradient-to-r from-red-50 to-blue-50 font-bold">
+                                    <tr class="bg-gradient-to-r from-[#2563eb]/10 to-[#1a1a1a]/10 font-bold">
                                         <td colspan="{{ count($table->headers ?? []) }}"
                                             class="border border-gray-200 px-4 py-2 text-right text-sm text-gradient-primary">
                                             Grand Total:
@@ -228,13 +231,5 @@
             <p class="text-gray-400">Research not found.</p>
         </div>
     @endif
-
-    {{-- BACK BUTTON with gradient and no arrow --}}
-    <div class="text-center mt-6">
-        <a href="{{ route('my.submissions') }}"
-           class="inline-flex items-center px-6 py-3 bg-gradient-primary text-white rounded-lg text-sm font-medium shadow-sm hover:opacity-90 transition">
-            Back to My Submissions
-        </a>
-    </div>
 </div>
 @endsection

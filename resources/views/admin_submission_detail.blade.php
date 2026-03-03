@@ -4,27 +4,31 @@
 
 @section('content')
 <style>
+    /* Custom gradient for vibrant dark blue to black */
     .bg-gradient-primary {
-        background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+        background: linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%);
     }
     .text-gradient-primary {
-        background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+        background: linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
-    .bg-gradient-card {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+    .bg-gradient-header {
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(26, 26, 26, 0.1) 100%);
     }
-    .border-gradient-red-blue {
+    .bg-gradient-card {
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(26, 26, 26, 0.05) 100%);
+    }
+    .border-gradient-card {
         border: 2px solid transparent;
         background: linear-gradient(white, white) padding-box,
-                    linear-gradient(135deg, #ef4444 0%, #3b82f6 100%) border-box;
+                    linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%) border-box;
     }
     .border-gradient-separator {
         border: 0;
         height: 1px;
-        background: linear-gradient(90deg, #ef4444 0%, #3b82f6 100%);
+        background: linear-gradient(90deg, #2563eb 0%, #1a1a1a 100%);
     }
     .hover-card-effect {
         transition: all 0.3s ease;
@@ -33,26 +37,35 @@
         transform: translateY(-4px);
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
     }
+    /* Add top padding to account for fixed navbar */
+    .content-container {
+        padding-top: 0rem;
+    }
 </style>
 
-<div class="max-w-7xl mx-auto mt-8 px-4">
-    <!-- Header -->
-    <div class="mb-6 flex items-center justify-between">
-        <div>
-            <h1 class="text-2xl font-semibold text-gradient-primary">Research Submission Detail</h1>
-            <p class="text-sm text-gray-500">View complete research information</p>
+<div class="content-container max-w-7xl mx-auto px-4">
+    <!-- Header with gradient background -->
+    <div class="bg-gradient-header rounded-xl p-6 mb-6 border border-gray-100">
+        <div class="flex items-center justify-between">
+            <div>
+                <div class="flex items-center gap-2 mb-1">
+                    <div class="bg-gradient-primary rounded-full"></div>
+                    <h1 class="text-2xl font-semibold text-gradient-primary">Research Submission Detail</h1>
+                </div>
+                <p class="text-sm text-gray-600 ml-3">View complete research information</p>
+            </div>
+            @if(isset($research))
+            <div class="flex items-center gap-3">
+                <a href="{{ route('admin.research.download', $research->id) }}"
+                   class="inline-flex items-center gap-2 bg-gradient-primary text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-sm hover:opacity-90 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    Download as Word
+                </a>
+            </div>
+            @endif
         </div>
-        @if(isset($research))
-        <div class="flex items-center gap-3">
-            <a href="{{ route('admin.research.download', $research->id) }}"
-               class="inline-flex items-center gap-2 bg-gradient-primary text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-sm hover:opacity-90 transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                </svg>
-                Download as Word
-            </a>
-        </div>
-        @endif
     </div>
 
     @if(session('success'))
@@ -65,8 +78,8 @@
     @endif
 
     @if(isset($research))
-        {{-- SINGLE CARD with Red to Blue Gradient Border --}}
-        <div class="border-gradient-red-blue rounded-xl bg-gradient-card p-6 shadow-sm hover-card-effect mb-6">
+        {{-- SINGLE CARD with Gradient Border --}}
+        <div class="border-gradient-card rounded-xl bg-gradient-card p-6 shadow-sm hover-card-effect mb-6">
             
             {{-- RESEARCH HEADER --}}
             <div class="mb-6">
@@ -142,11 +155,11 @@
                         </div>
                     @endif
 
-                    {{-- TABLES --}}
+                    {{-- TABLES with gradient accents --}}
                     @foreach($chapter->tables ?? [] as $table)
                         <div class="overflow-x-auto mb-4">
                             <table class="min-w-full border border-gray-200 rounded-lg">
-                                <thead class="bg-gradient-to-r from-red-50 to-blue-50">
+                                <thead class="bg-gradient-to-r from-[#2563eb]/10 to-[#1a1a1a]/10">
                                     <tr>
                                         @foreach($table->headers ?? [] as $header)
                                             <th class="border border-gray-200 px-4 py-2 text-left text-sm font-medium text-gradient-primary">{{ $header }}</th>
@@ -160,7 +173,7 @@
                                     @php $grandTotal = 0; @endphp
 
                                     @foreach($table->rows ?? [] as $row)
-                                        <tr class="hover:bg-gradient-to-r hover:from-red-50 hover:to-blue-50">
+                                        <tr class="hover:bg-gradient-to-r hover:from-[#2563eb]/5 hover:to-[#1a1a1a]/5">
                                             @foreach($row->cells ?? [] as $cell)
                                                 <td class="border border-gray-200 px-4 py-2 text-sm text-gray-600">{{ $cell }}</td>
                                             @endforeach
@@ -177,7 +190,7 @@
 
                                 @if($table->has_total)
                                     <tfoot>
-                                        <tr class="bg-gradient-to-r from-red-50 to-blue-50 font-bold">
+                                        <tr class="bg-gradient-to-r from-[#2563eb]/10 to-[#1a1a1a]/10 font-bold">
                                             <td colspan="{{ count($table->headers ?? []) }}"
                                                 class="border border-gray-200 px-4 py-2 text-right text-sm text-gradient-primary">
                                                 Grand Total:
@@ -229,7 +242,7 @@
             </div>
         </div>
 
-        <!-- Back Button with Gradient and No Arrow -->
+        <!-- Back Button with Gradient -->
         <div class="text-center mt-6">
             <a href="{{ route('admin.submissions.list') }}" 
                class="inline-flex items-center px-6 py-3 bg-gradient-primary text-white rounded-lg text-sm font-medium shadow-sm hover:opacity-90 transition">
@@ -237,7 +250,7 @@
             </a>
         </div>
     @else
-        <div class="bg-white rounded-xl border border-gray-200 p-12 text-center">
+        <div class="border-gradient-card rounded-xl bg-white p-12 text-center">
             <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>

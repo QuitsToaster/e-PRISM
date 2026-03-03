@@ -6,30 +6,30 @@
     <title>Login - e-PRISM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom gradient for red to blue */
+        /* Custom gradient for vibrant dark blue to black */
         .bg-gradient-primary {
-            background: linear-gradient(135deg, #ef4444 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%);
         }
         .border-gradient-primary {
             border: 2px solid transparent;
             background: linear-gradient(white, white) padding-box,
-                        linear-gradient(135deg, #ef4444 0%, #3b82f6 100%) border-box;
+                        linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%) border-box;
         }
         .focus-ring-gradient:focus {
             outline: none;
             ring: 2px solid transparent;
             ring-offset: 2px;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-red-50 to-blue-50 flex items-center justify-center min-h-screen">
+<body class="bg-gradient-to-br from-[#2563eb]/10 to-[#1a1a1a]/10 flex items-center justify-center min-h-screen">
 
-    <!-- Back to home link with red to blue gradient -->
+    <!-- Back to home link with only border -->
     <div class="absolute top-6 left-6">
-        <a href="/" class="text-sm bg-gradient-primary text-white px-4 py-2 rounded-lg shadow-md hover:opacity-90 transition flex items-center gap-1 font-medium">
-            <span class="text-lg"></span> Back to e-PRISM
+        <a href="/" class="text-sm bg-transparent text-[#2563eb] px-4 py-1 rounded-lg border-2 border-[#2563eb] hover:bg-[#2563eb] hover:text-white transition flex items-center gap-1 font-medium">
+            <span class="text-lg">←</span> Back
         </a>
     </div>
 
@@ -40,7 +40,7 @@
                 <span class="text-white text-2xl font-bold">eP</span>
             </div>
             <h2 class="text-2xl font-bold">
-                <span class="bg-gradient-to-r from-red-600 to-blue-600 bg-clip-text text-transparent">
+                <span class="bg-gradient-to-r from-[#2563eb] to-[#1a1a1a] bg-clip-text text-transparent">
                     Welcome back
                 </span>
             </h2>
@@ -54,7 +54,7 @@
             <div class="mb-5">
                 <label class="block mb-2 text-sm font-medium text-gray-700">Email address</label>
                 <input type="email" name="email" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition" 
                     placeholder="you@example.com"
                     required>
             </div>
@@ -63,7 +63,7 @@
             <div class="mb-4">
                 <label class="block mb-2 text-sm font-medium text-gray-700">Password</label>
                 <input type="password" name="password" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition" 
                     placeholder="••••••••"
                     required>
             </div>
@@ -71,18 +71,18 @@
             <!-- Remember me & Forgot password -->
             <div class="flex items-center justify-between mb-6">
                 <div class="flex items-center">
-                    <input type="checkbox" id="remember" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                    <input type="checkbox" id="remember" class="w-4 h-4 text-[#2563eb] border-gray-300 rounded focus:ring-[#2563eb]">
                     <label for="remember" class="ml-2 text-sm text-gray-600">Remember me</label>
                 </div>
-                <a href="#" class="text-sm text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-blue-600 hover:opacity-80">
+                <a href="#" class="text-sm text-transparent bg-clip-text bg-gradient-to-r from-[#2563eb] to-[#1a1a1a] hover:opacity-80">
                     Forgot password?
                 </a>
             </div>
 
             <!-- Error message -->
             @error('email') 
-                <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                <div class="mb-4 p-3 bg-[#2563eb]/10 border border-[#2563eb]/20 rounded-lg">
+                    <span class="text-[#2563eb] text-sm">{{ $message }}</span>
                 </div>
             @enderror
 
@@ -105,14 +105,14 @@
         <!-- Sign up link -->
         <p class="text-center text-sm text-gray-600">
             New to e-PRISM? 
-            <a href="{{ route('signup.form') }}" class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-blue-600 hover:opacity-80">
+            <a href="{{ route('signup.form') }}" class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#2563eb] to-[#1a1a1a] hover:opacity-80">
                 Create an account
             </a>
         </p>
 
         <!-- Footer note -->
         <p class="text-center text-xs text-gray-400 mt-6">
-            © e-PRISM · Research Management Platform
+            © 2026 e-PRISM · Research Management Platform
         </p>
     </div>
 
