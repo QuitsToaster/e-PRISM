@@ -7,8 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class ResearchChapter extends Model
 {
     protected $fillable = [
-        'research_id', 'chapter_number', 'title', 'content'
-    ];
+    'research_id',
+    'chapter_number',
+    'title',
+    'content',
+    'admin_feedback',
+    'review_status'
+];
 
     public function research() {
         return $this->belongsTo(Research::class);

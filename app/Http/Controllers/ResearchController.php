@@ -307,4 +307,61 @@ public function adminAttachments()
 
     return view('admin_attachments', compact('attachments'));
 }
+
+// =============================
+// SAVE CHAPTER REVIEW
+// =============================
+public function saveChapterReview(Request $request, $chapterId)
+{
+    $request->validate([
+        'admin_feedback' => 'nullable|string',
+        'review_status'  => 'required|in:Pending,Approved,Needs Revision'
+    ]);
+
+    $chapter = ResearchChapter::findOrFail($chapterId);
+
+    $chapter->admin_feedback = $request->admin_feedback;
+    $chapter->review_status  = $request->review_status;
+    $chapter->save();
+
+    return back()->with('success', 'Chapter review saved successfully!');
+}
+
+// =============================
+// SAVE TABLE REVIEW
+// =============================
+public function saveTableReview(Request $request, $tableId)
+{
+    $request->validate([
+        'admin_feedback' => 'nullable|string',
+        'review_status'  => 'required|in:Pending,Approved,Needs Revision'
+    ]);
+
+    $table = ResearchChapterTable::findOrFail($tableId);
+
+    $table->admin_feedback = $request->admin_feedback;
+    $table->review_status  = $request->review_status;
+    $table->save();
+
+    return back()->with('success', 'Table review saved successfully!');
+}
+
+// =============================
+// SAVE ATTACHMENT REVIEW
+// =============================
+public function saveAttachmentReview(Request $request, $attachmentId)
+{
+    $request->validate([
+        'admin_feedback' => 'nullable|string',
+        'review_status'  => 'required|in:Pending,Approved,Needs Revision'
+    ]);
+
+    $attachment = Attachment::findOrFail($attachmentId);
+
+    $attachment->admin_feedback = $request->admin_feedback;
+    $attachment->review_status  = $request->review_status;
+    $attachment->save();
+
+    return back()->with('success', 'Attachment review saved successfully!');
+}
 }

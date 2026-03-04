@@ -71,8 +71,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin-submissions/{id}/download', [ResearchController::class, 'downloadResearchTemplate'])
      ->name('admin.research.download');
 
+     Route::post('/admin/chapter-review/{chapterId}',
+    [ResearchController::class, 'saveChapterReview']
+)->name('admin.chapter.review');
+
      // Admin Summary Pages
     Route::get('/admin/researches', [ResearchController::class, 'adminResearches'])->name('admin.researches');
     Route::get('/admin/proponents', [ResearchController::class, 'adminProponents'])->name('admin.proponents');
     Route::get('/admin/attachments', [ResearchController::class, 'adminAttachments'])->name('admin.attachments');
+
+    Route::post('/admin/table-review/{tableId}',
+    [ResearchController::class, 'saveTableReview']
+)->name('admin.table.review');
+
+Route::post('/admin/attachment-review/{attachmentId}',
+    [ResearchController::class, 'saveAttachmentReview']
+)->name('admin.attachment.review');
 });

@@ -145,7 +145,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                         </svg>
-                        Chapter {{ $chapter->chapter_number }} – {{ $chapter->title }}
+                        Chapter {{ $chapter->chapter_number }}
                     </h2>
 
                     {{-- TEXT CONTENT --}}
@@ -153,6 +153,68 @@
                         <div class="bg-white rounded-lg p-4 mb-4 text-gray-700 text-sm leading-relaxed border border-gray-200">
                             {!! nl2br(e($chapter->content)) !!}
                         </div>
+
+                        {{-- ============================= --}}
+{{-- ADMIN REVIEW SECTION --}}
+{{-- ============================= --}}
+<div class="bg-white rounded-lg border border-gray-200 p-4 mt-4">
+
+    <form method="POST" action="{{ route('admin.chapter.review', $chapter->id) }}">
+        @csrf
+
+        <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-semibold text-gradient-primary">
+                Chapter Review
+            </h3>
+
+            {{-- STATUS BADGE --}}
+            @php
+                $statusColor = match($chapter->review_status) {
+                    'Approved' => 'bg-green-100 text-green-700',
+                    'Needs Revision' => 'bg-red-100 text-red-700',
+                    default => 'bg-yellow-100 text-yellow-700'
+                };
+            @endphp
+
+            <span class="px-3 py-1 text-xs rounded-full {{ $statusColor }}">
+                {{ $chapter->review_status ?? 'Pending' }}
+            </span>
+        </div>
+
+        {{-- STATUS DROPDOWN --}}
+        <div class="mb-3">
+            <label class="block text-xs font-medium text-gray-600 mb-1">
+                Review Status
+            </label>
+            <select name="review_status"
+                class="w-full border border-gray-300 rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-blue-500">
+
+                <option value="Pending" {{ $chapter->review_status == 'Pending' ? 'selected' : '' }}>Pending</option>
+                <option value="Approved" {{ $chapter->review_status == 'Approved' ? 'selected' : '' }}>Approved</option>
+                <option value="Needs Revision" {{ $chapter->review_status == 'Needs Revision' ? 'selected' : '' }}>Needs Revision</option>
+            </select>
+        </div>
+
+        {{-- FEEDBACK TEXTAREA --}}
+        <div class="mb-3">
+            <label class="block text-xs font-medium text-gray-600 mb-1">
+                Admin Feedback
+            </label>
+            <textarea name="admin_feedback"
+                rows="3"
+                class="w-full border border-gray-300 rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                placeholder="Write feedback for this chapter...">{{ $chapter->admin_feedback }}</textarea>
+        </div>
+
+        <div class="text-right">
+            <button type="submit"
+                class="bg-gradient-primary text-white px-4 py-2 rounded-lg text-xs font-medium hover:opacity-90 transition">
+                Save Review
+            </button>
+        </div>
+
+    </form>
+</div>
                     @endif
 
                     {{-- TABLES with gradient accents --}}
@@ -202,6 +264,58 @@
                                     </tfoot>
                                 @endif
                             </table>
+                            {{-- ============================= --}}
+{{-- TABLE REVIEW SECTION --}}
+{{-- ============================= --}}
+<div class="bg-white rounded-lg border border-gray-200 p-4 mt-4">
+
+    <form method="POST" action="{{ route('admin.table.review', $table->id) }}">
+        @csrf
+
+        @php
+            $statusColor = match($table->review_status) {
+                'Approved' => 'bg-green-100 text-green-700',
+                'Needs Revision' => 'bg-red-100 text-red-700',
+                default => 'bg-yellow-100 text-yellow-700'
+            };
+        @endphp
+
+        <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-semibold text-gradient-primary">
+                Table Review
+            </h3>
+
+            <span class="px-3 py-1 text-xs rounded-full {{ $statusColor }}">
+                {{ $table->review_status ?? 'Pending' }}
+            </span>
+        </div>
+
+        <div class="mb-3">
+            <select name="review_status"
+                class="w-full border border-gray-300 rounded-lg text-sm px-3 py-2">
+
+                <option value="Pending" {{ $table->review_status == 'Pending' ? 'selected' : '' }}>Pending</option>
+                <option value="Approved" {{ $table->review_status == 'Approved' ? 'selected' : '' }}>Approved</option>
+                <option value="Needs Revision" {{ $table->review_status == 'Needs Revision' ? 'selected' : '' }}>Needs Revision</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <textarea name="admin_feedback"
+                rows="3"
+                class="w-full border border-gray-300 rounded-lg text-sm px-3 py-2"
+                placeholder="Write feedback for this table...">{{ $table->admin_feedback }}</textarea>
+        </div>
+
+        <div class="text-right">
+            <button type="submit"
+                class="bg-gradient-primary text-white px-4 py-2 rounded-lg text-xs font-medium">
+                Save Table Review
+            </button>
+        </div>
+
+    </form>
+</div>
                         </div>
                     @endforeach
                 </div>
@@ -236,6 +350,58 @@
                                 </svg>
                                 {{ $attachment->filename ?? 'Unnamed File' }}
                             </a>
+                            {{-- ============================= --}}
+{{-- ATTACHMENT REVIEW SECTION --}}
+{{-- ============================= --}}
+<div class="bg-white rounded-lg border border-gray-200 p-4 mt-2">
+
+    <form method="POST" action="{{ route('admin.attachment.review', $attachment->id) }}">
+        @csrf
+
+        @php
+            $statusColor = match($attachment->review_status) {
+                'Approved' => 'bg-green-100 text-green-700',
+                'Needs Revision' => 'bg-red-100 text-red-700',
+                default => 'bg-yellow-100 text-yellow-700'
+            };
+        @endphp
+
+        <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold text-gradient-primary">
+                Attachment Review
+            </span>
+
+            <span class="px-3 py-1 text-xs rounded-full {{ $statusColor }}">
+                {{ $attachment->review_status ?? 'Pending' }}
+            </span>
+        </div>
+
+        <div class="mb-3">
+            <select name="review_status"
+                class="w-full border border-gray-300 rounded-lg text-sm px-3 py-2">
+
+                <option value="Pending" {{ $attachment->review_status == 'Pending' ? 'selected' : '' }}>Pending</option>
+                <option value="Approved" {{ $attachment->review_status == 'Approved' ? 'selected' : '' }}>Approved</option>
+                <option value="Needs Revision" {{ $attachment->review_status == 'Needs Revision' ? 'selected' : '' }}>Needs Revision</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <textarea name="admin_feedback"
+                rows="2"
+                class="w-full border border-gray-300 rounded-lg text-sm px-3 py-2"
+                placeholder="Write feedback for this attachment...">{{ $attachment->admin_feedback }}</textarea>
+        </div>
+
+        <div class="text-right">
+            <button type="submit"
+                class="bg-gradient-primary text-white px-3 py-1 rounded-lg text-xs">
+                Save
+            </button>
+        </div>
+
+    </form>
+</div>
                         </li>
                     @endforeach
                 </ul>
