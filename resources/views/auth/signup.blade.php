@@ -6,7 +6,6 @@
     <title>Sign Up - e-PRISM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom gradient for vibrant dark blue to black */
         .bg-gradient-primary {
             background: linear-gradient(135deg, #2563eb 0%, #1a1a1a 100%);
         }
@@ -19,7 +18,7 @@
 </head>
 <body class="bg-gradient-to-br from-[#2563eb]/10 to-[#1a1a1a]/10 flex items-center justify-center min-h-screen p-4">
 
-    <!-- Back to home link with border only -->
+    <!-- Back -->
     <div class="absolute top-6 left-6">
         <a href="/" class="text-sm bg-transparent text-[#2563eb] px-4 py-1 rounded-lg border-2 border-[#2563eb] hover:bg-[#2563eb] hover:text-white transition flex items-center gap-1 font-medium">
             <span class="text-lg">←</span> Back
@@ -27,7 +26,8 @@
     </div>
 
     <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-md border border-gray-100">
-        <!-- Logo with gradient -->
+        
+        <!-- Logo -->
         <div class="text-center mb-6">
             <div class="w-16 h-16 bg-gradient-primary rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                 <span class="text-white text-2xl font-bold">eP</span>
@@ -43,71 +43,61 @@
         <form action="{{ route('signup') }}" method="POST">
             @csrf
             
-            <!-- Name field -->
             <div class="mb-4">
                 <label class="block mb-2 text-sm font-medium text-gray-700">Full name</label>
                 <input type="text" name="name" value="{{ old('name') }}" 
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition" 
-                    placeholder="John Doe"
-                    required>
+                    placeholder="John Doe" required>
                 @error('name') 
                     <div class="mt-1 text-[#2563eb] text-sm">{{ $message }}</div>
                 @enderror
             </div>
 
-            <!-- Email field -->
             <div class="mb-4">
                 <label class="block mb-2 text-sm font-medium text-gray-700">Email address</label>
                 <input type="email" name="email" value="{{ old('email') }}" 
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition" 
-                    placeholder="you@example.com"
-                    required>
+                    placeholder="you@example.com" required>
                 @error('email') 
                     <div class="mt-1 text-[#2563eb] text-sm">{{ $message }}</div>
                 @enderror
             </div>
 
-            <!-- Password field -->
             <div class="mb-4">
                 <label class="block mb-2 text-sm font-medium text-gray-700">Password</label>
                 <input type="password" name="password" 
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition" 
-                    placeholder="••••••••"
-                    required>
+                    placeholder="••••••••" required>
                 @error('password') 
                     <div class="mt-1 text-[#2563eb] text-sm">{{ $message }}</div>
                 @enderror
             </div>
 
-            <!-- Confirm Password field -->
             <div class="mb-6">
                 <label class="block mb-2 text-sm font-medium text-gray-700">Confirm password</label>
                 <input type="password" name="password_confirmation" 
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition" 
-                    placeholder="••••••••"
-                    required>
+                    placeholder="••••••••" required>
             </div>
 
-            <!-- Terms and conditions -->
+            <!-- Terms -->
             <div class="mb-6">
                 <div class="flex items-start">
                     <input type="checkbox" id="terms" class="mt-1 w-4 h-4 text-[#2563eb] border-gray-300 rounded focus:ring-[#2563eb]" required>
                     <label for="terms" class="ml-2 text-sm text-gray-600">
                         I agree to the 
-                        <a href="#" class="text-transparent bg-clip-text bg-gradient-to-r from-[#2563eb] to-[#1a1a1a] hover:opacity-80">Terms of Service</a> 
+                        <button type="button" onclick="openModal('termsModal')" class="text-[#2563eb] hover:underline">Terms of Service</button> 
                         and 
-                        <a href="#" class="text-transparent bg-clip-text bg-gradient-to-r from-[#2563eb] to-[#1a1a1a] hover:opacity-80">Privacy Policy</a>
+                        <button type="button" onclick="openModal('privacyModal')" class="text-[#2563eb] hover:underline">Privacy Policy</button>
                     </label>
                 </div>
             </div>
 
-            <!-- Sign Up button with gradient -->
             <button type="submit" class="w-full bg-gradient-primary text-white py-3 rounded-lg hover:opacity-90 transition font-medium shadow-md hover:shadow-lg">
                 Create account
             </button>
         </form>
 
-        <!-- Divider -->
         <div class="relative my-6">
             <div class="absolute inset-0 flex items-center">
                 <div class="w-full border-t border-gray-200"></div>
@@ -117,19 +107,60 @@
             </div>
         </div>
 
-        <!-- Login link -->
         <p class="text-center text-sm text-gray-600">
             Already have an account? 
-            <a href="{{ route('login.form') }}" class="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#2563eb] to-[#1a1a1a] hover:opacity-80">
-                Sign in
+            <a href="{{ route('login.form') }}" class="font-medium text-[#2563eb] hover:underline">
+                Log in
             </a>
         </p>
 
-        <!-- Footer note -->
         <p class="text-center text-xs text-gray-400 mt-6">
             © 2026 e-PRISM · Research Management Platform
         </p>
     </div>
+
+    <!-- Terms Modal -->
+    <div id="termsModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4">
+        <div class="bg-white max-w-lg w-full rounded-xl shadow-xl p-6 relative">
+            <h3 class="text-xl font-bold mb-4">Terms of Service</h3>
+            <div class="text-sm text-gray-600 max-h-64 overflow-y-auto space-y-2">
+                <p>By creating an account in e-PRISM, you agree to use the platform for academic and research purposes only.</p>
+                <p>You are responsible for the accuracy of the information submitted.</p>
+                <p>Any misuse of the system may result in account suspension.</p>
+            </div>
+            <button onclick="closeModal('termsModal')" class="mt-4 bg-[#2563eb] text-white px-4 py-2 rounded-lg hover:opacity-90">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Privacy Modal -->
+    <div id="privacyModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4">
+        <div class="bg-white max-w-lg w-full rounded-xl shadow-xl p-6 relative">
+            <h3 class="text-xl font-bold mb-4">Privacy Policy</h3>
+            <div class="text-sm text-gray-600 max-h-64 overflow-y-auto space-y-2">
+                <p>Your personal information is securely stored and will not be shared with third parties.</p>
+                <p>We use your data only for research management and academic record purposes.</p>
+                <p>Passwords are encrypted and protected.</p>
+            </div>
+            <button onclick="closeModal('privacyModal')" class="mt-4 bg-[#2563eb] text-white px-4 py-2 rounded-lg hover:opacity-90">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal Script -->
+    <script>
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.getElementById(id).classList.add('flex');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.getElementById(id).classList.remove('flex');
+        }
+    </script>
 
 </body>
 </html>

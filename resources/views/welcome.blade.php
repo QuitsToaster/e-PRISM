@@ -61,10 +61,10 @@
             <!-- Buttons with gradient -->
             <div class="flex flex-col sm:flex-row gap-4">
                 <a href="{{ route('signup.form') }}" class="px-6 py-3 bg-gradient-primary text-white rounded-lg hover:opacity-90 transition font-medium text-center shadow-md hover:shadow-lg">
-                    Get started
+                    Sign Up
                 </a>
                 <a href="{{ route('login.form') }}" class="px-6 py-3 border-gradient-primary text-gray-700 rounded-lg hover:bg-gradient-to-r hover:from-[#2563eb]/10 hover:to-[#1a1a1a]/10 transition font-medium text-center">
-                    Sign in
+                    Log in
                 </a>
             </div>
 

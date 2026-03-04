@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ResearchController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 // Landing Page
 Route::get('/', function () {
@@ -95,4 +97,13 @@ Route::get('/dashboard', [ResearchController::class, 'dashboard'])
 
 // Edit Draft
 Route::get('/submit-paper/{id}/edit', [ResearchController::class, 'edit'])->middleware('auth')->name('submit.paper.edit');
+
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])
+    ->name('password.email');
+
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
+    ->name('password.reset');
+
+Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])
+    ->name('password.update');
 });

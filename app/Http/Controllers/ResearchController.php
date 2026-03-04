@@ -135,7 +135,7 @@ public function store(Request $request)
     });
 
     return redirect()->route('dashboard')
-        ->with('success', 'Saved successfully!');
+        ->with('success', 'Submitted successfully!');
 }
 
     public function mySubmissions()

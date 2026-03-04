@@ -74,9 +74,11 @@
                     <input type="checkbox" id="remember" class="w-4 h-4 text-[#2563eb] border-gray-300 rounded focus:ring-[#2563eb]">
                     <label for="remember" class="ml-2 text-sm text-gray-600">Remember me</label>
                 </div>
-                <a href="#" class="text-sm text-transparent bg-clip-text bg-gradient-to-r from-[#2563eb] to-[#1a1a1a] hover:opacity-80">
-                    Forgot password?
-                </a>
+                <!-- OPEN MODAL -->
+            <button type="button" onclick="openModal()"
+                class="text-sm text-blue-600 hover:underline">
+                Forgot password?
+            </button>
             </div>
 
             <!-- Error message -->
@@ -109,6 +111,41 @@
                 Create an account
             </a>
         </p>
+
+        <!-- Forgot Password Modal -->
+<div id="forgotModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center">
+    <div class="bg-white p-6 rounded-xl w-full max-w-md">
+        <h3 class="text-lg font-bold mb-4">Reset Password</h3>
+
+        <form method="POST" action="{{ route('password.email') }}">
+            @csrf
+            <input type="email" name="email"
+                class="w-full px-4 py-3 border rounded-lg mb-4"
+                placeholder="Enter your email" required>
+
+            <button type="submit"
+                class="w-full bg-gradient-primary text-white py-3 rounded-lg hover:opacity-90 transition font-medium shadow-md hover:shadow-lg">
+                Send Reset Link
+            </button>
+        </form>
+
+        <button onclick="closeModal()"
+            class="mt-3 text-sm text-gray-500 hover:underline">
+            Cancel
+        </button>
+    </div>
+</div>
+
+<script>
+function openModal() {
+    document.getElementById('forgotModal').classList.remove('hidden');
+    document.getElementById('forgotModal').classList.add('flex');
+}
+
+function closeModal() {
+    document.getElementById('forgotModal').classList.add('hidden');
+}
+</script>
 
         <!-- Footer note -->
         <p class="text-center text-xs text-gray-400 mt-6">
