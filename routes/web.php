@@ -68,8 +68,9 @@ Route::middleware('auth')->group(function () {
     // Single research detail view
     Route::get('/admin-submissions/{id}', [ResearchController::class, 'showAdminSubmission'])->name('admin.submissions.show');
 
-    Route::get('/admin-submissions/{id}/download', [ResearchController::class, 'downloadResearchTemplate'])
-     ->name('admin.research.download');
+    Route::get('/admin/research/download/{id}', 
+    [ResearchController::class, 'downloadResearchTemplate']
+)->name('admin.research.download');
 
      Route::post('/admin/chapter-review/{chapterId}',
     [ResearchController::class, 'saveChapterReview']

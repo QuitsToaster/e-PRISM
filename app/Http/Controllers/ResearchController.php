@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\PhpWord;
 
 class ResearchController extends Controller
 {
@@ -232,32 +234,171 @@ public function showAdminSubmission($id)
     return view('admin_submission_detail', compact('research'));
 }
 
-// Download the research as Word file (Option B)
+
 public function downloadResearchTemplate($id)
 {
-    $research = Research::with(['proponents', 'attachments'])->findOrFail($id);
+    $research = Research::with([
+        'proponents',
+        'chapters.tables.rows'
+    ])->findOrFail($id);
 
     $templatePath = storage_path('app/templates/research_template.docx');
+
+    if (!file_exists($templatePath)) {
+        abort(404, 'Template not found.');
+    }
+
     $templateProcessor = new TemplateProcessor($templatePath);
 
-    // Replace placeholders in Word: e.g. ${title}, ${school}, ${user_id}
+    /* =====================================
+       BASIC DETAILS
+    ===================================== */
     $templateProcessor->setValue('title', $research->title);
     $templateProcessor->setValue('school', $research->school);
-    $templateProcessor->setValue('user_id', $research->user_id);
     $templateProcessor->setValue('type', ucfirst($research->research_type));
     $templateProcessor->setValue('classification', ucfirst($research->classification));
 
-    // Proponents example: just first three for simplicity
-    $proponents = $research->proponents->take(3);
-    foreach($proponents as $i => $p){
-        $templateProcessor->setValue("proponent_name_".($i+1), $p->name);
-        $templateProcessor->setValue("proponent_position_".($i+1), $p->position);
+    /* =====================================
+       PROPONENTS BLOCK
+    ===================================== */
+    if ($research->proponents->count() > 0) {
+
+        $templateProcessor->cloneBlock(
+            'proponents_block',
+            $research->proponents->count(),
+            true,
+            true
+        );
+
+        foreach ($research->proponents as $index => $proponent) {
+            $templateProcessor->setValue(
+                "proponent_name#" . ($index + 1),
+                $proponent->name
+            );
+            $templateProcessor->setValue(
+                "proponent_position#" . ($index + 1),
+                $proponent->position
+            );
+        }
+
+    } else {
+        $templateProcessor->deleteBlock('proponents_block');
     }
 
-    $fileName = 'research_'.$research->id.'.docx';
-    $templateProcessor->saveAs(storage_path('app/public/'.$fileName));
+    /* =====================================
+       CHAPTERS BLOCK
+    ===================================== */
+    if ($research->chapters->count() > 0) {
 
-    return response()->download(storage_path('app/public/'.$fileName));
+        $templateProcessor->cloneBlock(
+            'chapters_block',
+            $research->chapters->count(),
+            true,
+            true
+        );
+
+        foreach ($research->chapters as $cIndex => $chapter) {
+
+            $chapterIndex = $cIndex + 1;
+
+            $templateProcessor->setValue(
+                "chapter_number#{$chapterIndex}",
+                $chapter->chapter_number
+            );
+
+            $templateProcessor->setValue(
+                "chapter_content#{$chapterIndex}",
+                strip_tags($chapter->content)
+            );
+
+            /* =====================================
+               BUILD REAL WORD TABLE
+            ===================================== */
+
+            $tables = $chapter->tables;
+
+            if ($tables->count() > 0) {
+
+                $phpWord = new PhpWord();
+
+                $tableStyle = [
+                    'borderSize' => 6,
+                    'borderColor' => '000000',
+                    'cellMargin' => 50,
+                ];
+
+                $firstTable = true;
+                $complexBlock = null;
+
+                foreach ($tables as $tableData) {
+
+                    $table = new Table($tableStyle);
+
+                    // HEADERS
+                    $headers = is_array($tableData->headers)
+                        ? $tableData->headers
+                        : json_decode($tableData->headers, true);
+
+                    if ($headers) {
+                        $table->addRow();
+                        foreach ($headers as $header) {
+                            $table->addCell()->addText(
+                                $header,
+                                ['bold' => true]
+                            );
+                        }
+                    }
+
+                    // ROWS
+                    foreach ($tableData->rows as $row) {
+
+                        $cells = is_array($row->cells)
+                            ? $row->cells
+                            : json_decode($row->cells, true);
+
+                        if ($cells) {
+                            $table->addRow();
+                            foreach ($cells as $cell) {
+                                $table->addCell()->addText($cell);
+                            }
+                        }
+                    }
+
+                    // Assign first table to placeholder
+                    if ($firstTable) {
+                        $complexBlock = $table;
+                        $firstTable = false;
+                    }
+                }
+
+                $templateProcessor->setComplexBlock(
+                    "table_content#{$chapterIndex}",
+                    $complexBlock
+                );
+
+            } else {
+
+                $templateProcessor->setValue(
+                    "table_content#{$chapterIndex}",
+                    ''
+                );
+            }
+        }
+
+    } else {
+        $templateProcessor->deleteBlock('chapters_block');
+    }
+
+    /* =====================================
+       SAVE & DOWNLOAD
+    ===================================== */
+
+    $fileName = 'Research_' . $research->id . '.docx';
+    $savePath = storage_path('app/public/' . $fileName);
+
+    $templateProcessor->saveAs($savePath);
+
+    return response()->download($savePath)->deleteFileAfterSend(true);
 }
 
 public function saveFeedback(Request $request, $id)
