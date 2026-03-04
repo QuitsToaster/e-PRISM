@@ -91,4 +91,7 @@ Route::post('/admin/attachment-review/{attachmentId}',
 Route::get('/dashboard', [ResearchController::class, 'dashboard'])
     ->name('dashboard')
     ->middleware('auth');
+
+// Edit Draft
+Route::get('/submit-paper/{id}/edit', [ResearchController::class, 'edit'])->middleware('auth')->name('submit.paper.edit');
 });

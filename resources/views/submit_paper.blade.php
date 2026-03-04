@@ -152,95 +152,133 @@
     </div>
 
     <!-- FORM - Card with Gradient Border -->
-    <div id="submissionForm" class="border-gradient-card rounded-xl bg-white p-6 shadow-sm hidden">
-        <form method="POST" action="{{ route('submit.paper') }}" enctype="multipart/form-data" class="space-y-8">
-            @csrf
+<div id="submissionForm" class="border-gradient-card rounded-xl bg-white p-6 shadow-sm {{ isset($research) ? '' : 'hidden' }}">
+    <form method="POST" action="{{ isset($research) ? route('submit.paper') : route('submit.paper') }}" enctype="multipart/form-data" class="space-y-8">
+        @csrf
 
-            <input type="hidden" id="classification" name="classification">
-            <input type="hidden" id="selectedClassificationName" name="selected_classification_name">
-            <input type="hidden" id="selectedResearchTypeName" name="selected_research_type_name">
+        <!-- For editing, include research_id -->
+        @if(isset($research))
+            <input type="hidden" name="research_id" value="{{ $research->id }}">
+        @endif
 
-            <!-- Selected Research Type Label - Appears after selection -->
-            <div id="selectedTypeLabel" class="mb-4 p-3 bg-gradient-to-r from-[#2563eb]/10 to-[#1a1a1a]/10 rounded-lg border border-[#2563eb]/20 hidden">
-                <div class="flex items-center gap-2">
-                    <svg class="w-5 h-5 text-gradient-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span class="text-sm font-medium text-gray-700">Submitting: <span id="selectedTypeDisplay" class="text-gradient-primary font-semibold"></span></span>
-                </div>
+        <input type="hidden" id="classification" name="classification" value="{{ $research->classification ?? '' }}">
+        <input type="hidden" id="selectedClassificationName" name="selected_classification_name" value="{{ $research->classification ?? '' }}">
+        <input type="hidden" id="selectedResearchTypeName" name="selected_research_type_name" value="{{ $research->research_type ?? '' }}">
+
+        <!-- Selected Research Type Label -->
+        <div id="selectedTypeLabel" class="mb-4 p-3 bg-gradient-to-r from-[#2563eb]/10 to-[#1a1a1a]/10 rounded-lg border border-[#2563eb]/20 {{ isset($research) ? '' : 'hidden' }}">
+            <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-gradient-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="text-sm font-medium text-gray-700">
+                    Submitting: 
+                    <span id="selectedTypeDisplay" class="text-gradient-primary font-semibold">{{ ucfirst($research->research_type ?? '') }}</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- TYPE -->
+        <div class="mb-6 pb-6 relative">
+            <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-[#2563eb] to-[#1a1a1a]"></div>
+            <label class="block text-sm font-semibold text-gradient-primary mb-3">Type of Research</label>
+            <select id="researchType" name="research_type"
+                    class="w-full border border-gray-300 p-3 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition">
+                <option disabled {{ !isset($research) ? 'selected' : '' }}>Select type</option>
+                <option value="action" {{ (isset($research) && $research->research_type == 'action') ? 'selected' : '' }}>Action Research</option>
+                <option value="basic" {{ (isset($research) && $research->research_type == 'basic') ? 'selected' : '' }}>Basic Research</option>
+            </select>
+        </div>
+
+        <!-- PROPONENTS -->
+        <div class="mb-6 pb-6 relative">
+            <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-[#2563eb] to-[#1a1a1a]"></div>
+            <label class="block text-sm font-semibold text-gradient-primary mb-3">Proponents (Max 5)</label>
+
+            <div id="proponents" class="space-y-4">
+                @if(isset($research) && $research->proponents)
+                    @foreach($research->proponents as $proponent)
+                        <div class="proponent-item flex gap-2 items-center">
+                            <input type="text" name="proponents[{{ $loop->index }}][name]" placeholder="Name" value="{{ $proponent->name }}" class="border border-gray-300 p-2 rounded-lg flex-1">
+                            <input type="text" name="proponents[{{ $loop->index }}][position]" placeholder="Position" value="{{ $proponent->position }}" class="border border-gray-300 p-2 rounded-lg flex-1">
+                        </div>
+                    @endforeach
+                @endif
             </div>
 
-            <!-- TYPE -->
-            <div class="mb-6 pb-6 relative">
-                <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-[#2563eb] to-[#1a1a1a]"></div>
-                <label class="block text-sm font-semibold text-gradient-primary mb-3">Type of Research</label>
-                <select id="researchType" name="research_type"
-                        class="w-full border border-gray-300 p-3 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition">
-                    <option selected disabled>Select type</option>
-                    <option value="action">Action Research</option>
-                    <option value="basic">Basic Research</option>
-                </select>
+            <button type="button" id="addProponent"
+                    class="mt-3 bg-gradient-primary text-white px-4 py-2 rounded-lg hover:opacity-90 transition">
+                + Add Proponent
+            </button>
+        </div>
+
+        <!-- COMMON FIELDS -->
+        <div class="mb-6 pb-6 relative">
+            <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-[#2563eb] to-[#1a1a1a]"></div>
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+                <input name="school" placeholder="School / Station" 
+                       class="border border-gray-300 p-3 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition"
+                       value="{{ $research->school ?? '' }}">
+                <input name="school_id" placeholder="School ID (Optional)" 
+                       class="border border-gray-300 p-3 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition"
+                       value="{{ $research->school_id ?? '' }}">
             </div>
 
-            <!-- PROPONENTS -->
-            <div class="mb-6 pb-6 relative">
-                <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-[#2563eb] to-[#1a1a1a]"></div>
-                <label class="block text-sm font-semibold text-gradient-primary mb-3">Proponents (Max 5)</label>
+            <input name="title" placeholder="Title of the Study" 
+                   class="border border-gray-300 p-3 rounded-lg w-full focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition"
+                   value="{{ $research->title ?? '' }}">
+        </div>
 
-                <div id="proponents" class="space-y-4"></div>
+        <!-- CHAPTERS -->
+        <div id="chapters" class="space-y-10">
+            @if(isset($research) && $research->chapters)
+                @foreach($research->chapters as $chapter)
+                    <div class="chapter-item">
+                        <input type="text" name="chapters[{{ $loop->index }}][title]" placeholder="Chapter Title" value="{{ $chapter->title }}" class="border border-gray-300 p-2 rounded-lg w-full mb-2">
+                        <textarea name="chapters[{{ $loop->index }}][content]" placeholder="Content" class="border border-gray-300 p-2 rounded-lg w-full">{{ $chapter->content }}</textarea>
+                    </div>
+                @endforeach
+            @endif
+        </div>
 
-                <button type="button" id="addProponent"
-                        class="mt-3 bg-gradient-primary text-white px-4 py-2 rounded-lg hover:opacity-90 transition">
-                    + Add Proponent
-                </button>
+        <!-- ATTACHMENTS -->
+        <div class="mb-6 pb-6 relative">
+            <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-[#2563eb] to-[#1a1a1a]"></div>
+            <label class="block text-sm font-semibold text-gradient-primary mb-3">
+                Required PDF Attachments
+            </label>
+
+            <p class="text-sm text-gray-500 mb-4">
+                Please upload the required documents based on your research type and status.
+            </p>
+
+            <div id="attachmentsSection" class="space-y-4">
+                @if(isset($research) && $research->attachments)
+                    @foreach($research->attachments as $attachment)
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm">{{ $attachment->filename }}</span>
+                            <input type="file" name="attachments[]" class="border border-gray-300 p-2 rounded-lg flex-1">
+                        </div>
+                    @endforeach
+                @endif
             </div>
+        </div>
 
-            <!-- COMMON FIELDS -->
-            <div class="mb-6 pb-6 relative">
-                <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-[#2563eb] to-[#1a1a1a]"></div>
-                <div class="grid md:grid-cols-2 gap-4 mb-4">
-                    <input name="school" placeholder="School / Station" 
-                           class="border border-gray-300 p-3 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition">
-                    <input name="school_id" placeholder="School ID (Optional)" 
-                           class="border border-gray-300 p-3 rounded-lg focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition">
-                </div>
+        <!-- ACTIONS -->
+        <input type="hidden" name="action" id="formAction" value="{{ $research->status ?? 'draft' }}">
 
-                <input name="title" placeholder="Title of the Study" 
-                       class="border border-gray-300 p-3 rounded-lg w-full focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20 transition">
-            </div>
-
-            <!-- CHAPTERS -->
-            <div id="chapters" class="space-y-10"></div>
-
-            <!-- ATTACHMENTS -->
-            <div class="mb-6 pb-6 relative">
-                <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-[#2563eb] to-[#1a1a1a]"></div>
-                <label class="block text-sm font-semibold text-gradient-primary mb-3">
-                    Required PDF Attachments
-                </label>
-
-                <p class="text-sm text-gray-500 mb-4">
-                    Please upload the required documents based on your research type and status.
-                </p>
-
-                <div id="attachmentsSection" class="space-y-4"></div>
-            </div>
-
-            <!-- ACTIONS -->
-            <input type="hidden" name="action" id="formAction" value="draft">
-
-            <div class="flex gap-4 pt-4">
-                <button type="submit" onclick="document.getElementById('formAction').value='draft'"
-                    class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition font-medium shadow-sm">
-                    Save Draft
-                </button>
-                <button type="submit" onclick="document.getElementById('formAction').value='submitted'"
-                    class="bg-gradient-primary text-white px-6 py-3 rounded-lg hover:opacity-90 transition font-medium shadow-sm">
-                    Submit
-                </button>
-            </div>
-        </form>
-    </div>
+        <div class="flex gap-4 pt-4">
+            <button type="submit" onclick="document.getElementById('formAction').value='draft'"
+                class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition font-medium shadow-sm">
+                Save Draft
+            </button>
+            <button type="submit" onclick="document.getElementById('formAction').value='submitted'"
+                class="bg-gradient-primary text-white px-6 py-3 rounded-lg hover:opacity-90 transition font-medium shadow-sm">
+                Submit
+            </button>
+        </div>
+    </form>
+</div>
 </div>
 
 <script>

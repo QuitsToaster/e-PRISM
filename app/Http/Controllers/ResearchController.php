@@ -459,4 +459,16 @@ public function dashboard()
         'recentActivities'
     ));
 }
+
+public function edit($id)
+{
+    $research = Research::with(['proponents', 'attachments', 'chapters.tables.rows'])->findOrFail($id);
+
+    // Check if current user owns this draft
+    if ($research->user_id !== auth()->id()) {
+        abort(403, 'Unauthorized');
+    }
+
+    return view('submit_paper', compact('research'));
+}
 }
