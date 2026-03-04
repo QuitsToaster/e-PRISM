@@ -38,7 +38,7 @@
 </nav>
 
 <!-- Main content -->
-<div class="max-w-6xl mx-auto px-4 py-16 md:py-24">
+<div class="max-w-7xl mx-auto px-4 pt-20 md:py-24">
     <div class="grid md:grid-cols-2 gap-12 items-center">
         <!-- Left column -->
         <div>
@@ -77,33 +77,61 @@
             </div>
         </div>
         
-        <!-- Right column - visual with vibrant dark blue to black gradient -->
-        <div class="hidden md:block bg-gradient-to-br from-[#2563eb]/5 via-white to-[#1a1a1a]/5 p-8 rounded-2xl border border-gray-100 shadow-lg">
-            <div class="space-y-4">
-                <!-- Review status -->
-                <div class="flex items-center gap-3 text-xs mt-2">
-                    <div class="w-2 h-2 bg-[#2563eb] rounded-full"></div>
-                    <span class="text-gray-500">Digitalizing Research, Empowering Progress.</span>
-                </div>
-                <!-- Section headers with gradient numbers -->
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center text-white font-medium text-sm">01</div>
-                    <div class="flex-1 h-10 bg-white rounded-lg border border-gray-200 px-3 flex items-center text-sm text-gray-600">Introduction & Abstract</div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center text-white font-medium text-sm">02</div>
-                    <div class="flex-1 h-10 bg-white rounded-lg border border-gray-200 px-3 flex items-center text-sm text-gray-600">Research Methodology</div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center text-white font-medium text-sm">03</div>
-                    <div class="flex-1 h-10 bg-white rounded-lg border border-gray-200 px-3 flex items-center text-sm text-gray-600">Results & Findings</div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center text-white font-medium text-sm">04</div>
-                    <div class="flex-1 h-10 bg-white rounded-lg border border-gray-200 px-3 flex items-center text-sm text-gray-600">Discussion & Conclusion</div>
-                </div>
+        <!-- Right column - FAQs about e-PRISM -->
+<div class="hidden md:block bg-gradient-to-br from-[#2563eb]/5 via-white to-[#1a1a1a]/5 p-8 rounded-2xl border border-gray-100 shadow-lg">
+    <div class="space-y-4">
+        <!-- Tagline or intro -->
+        <div class="flex items-center gap-3 text-xs mt-2">
+            <div class="w-2 h-2 bg-[#2563eb] rounded-full"></div>
+            <span class="text-gray-500">Digitalizing Research, Empowering Progress.</span>
+        </div>
+
+        <!-- FAQ 1 -->
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center text-white font-medium text-sm">01</div>
+            <div class="flex-1 bg-white rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600">
+                <strong>What is e-PRISM?</strong> <br>
+                e-PRISM is a digital platform for submitting, reviewing, and tracking research projects efficiently.
             </div>
         </div>
+
+        <!-- FAQ 2 -->
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center text-white font-medium text-sm">02</div>
+            <div class="flex-1 bg-white rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600">
+                <strong>Who can submit research?</strong> <br>
+                Registered students, teachers, or researchers with proper access credentials can submit their studies.
+            </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center text-white font-medium text-sm">03</div>
+            <div class="flex-1 bg-white rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600">
+                <strong>How do I track my submission?</strong> <br>
+                Log in to your account and navigate to "My Submissions" to view status updates and feedback.
+            </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center text-white font-medium text-sm">04</div>
+            <div class="flex-1 bg-white rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600">
+                <strong>Can I edit my submission?</strong> <br>
+                Yes, you can edit your draft submissions anytime before final submission.
+            </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center text-white font-medium text-sm">05</div>
+            <div class="flex-1 bg-white rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600">
+                <strong>Who reviews the research?</strong> <br>
+                Your submissions are reviewed by authorized administrators and faculty members based on the research type.
+            </div>
+        </div>
+    </div>
+</div>
     </div>
 </div>
 
