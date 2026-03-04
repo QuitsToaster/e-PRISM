@@ -60,10 +60,15 @@
             <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
                 <span class="text-white text-lg font-bold">eP</span>
             </div>
-            <div>
-                <span class="text-white font-bold block">e-PRISM</span>
-                <span class="text-white/60 text-xs">Admin Portal</span>
-            </div>
+            <div class="flex items-center gap-3">
+    <!-- Place your logo image here -->
+    <img src="{{ asset('logo.png') }}" alt="e-PRISM Logo" class="w-10 h-10 rounded-lg" />
+
+    <div>
+        <span class="text-white font-bold block">e-PRISM</span>
+        <span class="text-white/60 text-xs">Admin Portal</span>
+    </div>
+</div>
         </div>
     </div>
 
