@@ -70,7 +70,7 @@
 </style>
 
 <!-- Add proper top padding to account for fixed navbar (increased from pt-4 to pt-24) -->
-<div class="pt-20 md:pt-15">
+<div class="max-w-7xl mx-auto px-4 pt-20">
     <!-- Header with colored horizontal area - matching admin -->
     <div class="bg-gradient-header rounded-xl p-6 mb-6 border border-gray-100">
         <div class="flex items-center gap-4">
@@ -102,42 +102,58 @@
             <span class="text-xs text-gray-500">Current progress</span>
         </div>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            <!-- Stat 1 - Total Submissions -->
-            <div class="bg-white/80 backdrop-blur-sm rounded-lg p-4 border-gradient-stat hover-card-effect">
-                <div class="text-xs text-gray-500 mb-1">Total Submissions</div>
-                <div class="text-2xl font-semibold text-gray-800">{{ $totalSubmissions ?? 0 }}</div>
-                <div class="text-xs text-gradient-primary mt-1">All time submissions</div>
-            </div>
-            
-            <!-- Stat 2 - Total Drafts -->
-            <div class="bg-white/80 backdrop-blur-sm rounded-lg p-4 border-gradient-stat hover-card-effect">
-                <div class="text-xs text-gray-500 mb-1">Total Drafts</div>
-                <div class="text-2xl font-semibold text-gray-800">{{ $totalDrafts ?? 0 }}</div>
-                <div class="text-xs text-[#2563eb] mt-1">Saved drafts</div>
-            </div>
+       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
 
-            <!-- Stat 3 - Approved Sections -->
-            <div class="bg-white/80 backdrop-blur-sm rounded-lg p-4 border-gradient-stat hover-card-effect">
-                <div class="text-xs text-gray-500 mb-1">Approved Sections</div>
-                <div class="text-2xl font-semibold text-gray-800">{{ $approvedSections ?? 0 }}</div>
-                <div class="text-xs text-green-500 mt-1">Approved by admin</div>
-            </div>
-            
-            <!-- Stat 4 - Pending Review -->
-            <div class="bg-white/80 backdrop-blur-sm rounded-lg p-4 border-gradient-stat hover-card-effect">
-                <div class="text-xs text-gray-500 mb-1">Pending Review</div>
-                <div class="text-2xl font-semibold text-gray-800">{{ $pendingReviews ?? 0 }}</div>
-                <div class="text-xs text-yellow-500 mt-1">Waiting for admin</div>
-            </div>
+    {{-- TOTAL SUBMISSIONS --}}
+    <a href="{{ route('my.submissions') }}"
+       class="bg-white/80 backdrop-blur-sm rounded-lg p-4 border-gradient-stat hover-card-effect block">
 
-            <!-- Stat 5 - Returned Sections -->
-            <div class="bg-white/80 backdrop-blur-sm rounded-lg p-4 border-gradient-stat hover-card-effect">
-                <div class="text-xs text-gray-500 mb-1">Returned Sections</div>
-                <div class="text-2xl font-semibold text-gray-800">{{ $returnedSections ?? 0 }}</div>
-                <div class="text-xs text-orange-500 mt-1">Needs revision</div>
-            </div>
-        </div>
+        <div class="text-xs text-gray-500 mb-1">Total Submissions</div>
+        <div class="text-2xl font-semibold text-gray-800">{{ $totalSubmissions }}</div>
+        <div class="text-xs text-gradient-primary mt-1">View submitted papers</div>
+    </a>
+
+
+    {{-- TOTAL DRAFTS --}}
+    <a href="{{ route('my.submissions') }}"
+       class="bg-white/80 backdrop-blur-sm rounded-lg p-4 border-gradient-stat hover-card-effect block">
+
+        <div class="text-xs text-gray-500 mb-1">Total Drafts</div>
+        <div class="text-2xl font-semibold text-gray-800">{{ $totalDrafts }}</div>
+        <div class="text-xs text-[#2563eb] mt-1">View saved drafts</div>
+    </a>
+
+
+    {{-- APPROVED --}}
+    <a href="{{ route('my.submissions') }}"
+       class="bg-white/80 backdrop-blur-sm rounded-lg p-4 border-gradient-stat hover-card-effect block">
+
+        <div class="text-xs text-gray-500 mb-1">Approved Sections</div>
+        <div class="text-2xl font-semibold text-gray-800">{{ $approvedSections }}</div>
+        <div class="text-xs text-green-500 mt-1">Approved by admin</div>
+    </a>
+
+
+    {{-- PENDING --}}
+    <a href="{{ route('my.submissions') }}"
+       class="bg-white/80 backdrop-blur-sm rounded-lg p-4 border-gradient-stat hover-card-effect block">
+
+        <div class="text-xs text-gray-500 mb-1">Pending Review</div>
+        <div class="text-2xl font-semibold text-gray-800">{{ $pendingReviews }}</div>
+        <div class="text-xs text-yellow-500 mt-1">Waiting for admin</div>
+    </a>
+
+
+    {{-- RETURNED --}}
+    <a href="{{ route('my.submissions') }}"
+       class="bg-white/80 backdrop-blur-sm rounded-lg p-4 border-gradient-stat hover-card-effect block">
+
+        <div class="text-xs text-gray-500 mb-1">Returned Sections</div>
+        <div class="text-2xl font-semibold text-gray-800">{{ $returnedSections }}</div>
+        <div class="text-xs text-orange-500 mt-1">Needs revision</div>
+    </a>
+
+</div>
     </div>
 
     {{-- Recent Activity Section with gradient border and scrollbar --}}

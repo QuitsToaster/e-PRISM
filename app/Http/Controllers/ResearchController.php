@@ -364,4 +364,90 @@ public function saveAttachmentReview(Request $request, $attachmentId)
 
     return back()->with('success', 'Attachment review saved successfully!');
 }
+
+// =============================
+// USER DASHBOARD
+// =============================
+public function dashboard()
+{
+    $userId = auth()->id();
+
+    /* ===============================
+       TOTAL SUBMISSIONS & DRAFTS
+    ================================*/
+    $totalSubmissions = Research::where('user_id', $userId)
+        ->where('status', 'submitted')
+        ->count();
+
+    $totalDrafts = Research::where('user_id', $userId)
+        ->where('status', 'draft')
+        ->count();
+
+    /* ===============================
+       GET ALL USER RESEARCH IDS
+    ================================*/
+    $researchIds = Research::where('user_id', $userId)->pluck('id');
+
+    $chapterIds = ResearchChapter::whereIn('research_id', $researchIds)->pluck('id');
+
+    /* ===============================
+       COUNT APPROVED / PENDING / RETURNED
+    ================================*/
+
+    // Chapters
+    $approvedChapters = ResearchChapter::whereIn('research_id', $researchIds)
+        ->where('review_status', 'Approved')->count();
+
+    $pendingChapters = ResearchChapter::whereIn('research_id', $researchIds)
+        ->where('review_status', 'Pending')->count();
+
+    $returnedChapters = ResearchChapter::whereIn('research_id', $researchIds)
+        ->where('review_status', 'Needs Revision')->count();
+
+    // Tables
+    $approvedTables = ResearchChapterTable::whereIn('research_chapter_id', $chapterIds)
+        ->where('review_status', 'Approved')->count();
+
+    $pendingTables = ResearchChapterTable::whereIn('research_chapter_id', $chapterIds)
+        ->where('review_status', 'Pending')->count();
+
+    $returnedTables = ResearchChapterTable::whereIn('research_chapter_id', $chapterIds)
+        ->where('review_status', 'Needs Revision')->count();
+
+    // Attachments
+    $approvedAttachments = Attachment::whereIn('research_id', $researchIds)
+        ->where('review_status', 'Approved')->count();
+
+    $pendingAttachments = Attachment::whereIn('research_id', $researchIds)
+        ->where('review_status', 'Pending')->count();
+
+    $returnedAttachments = Attachment::whereIn('research_id', $researchIds)
+        ->where('review_status', 'Needs Revision')->count();
+
+    /* ===============================
+       FINAL TOTALS
+    ================================*/
+    $approvedSections =
+        $approvedChapters +
+        $approvedTables +
+        $approvedAttachments;
+
+    $pendingReviews =
+        $pendingChapters +
+        $pendingTables +
+        $pendingAttachments;
+
+    $returnedSections =
+        $returnedChapters +
+        $returnedTables +
+        $returnedAttachments;
+
+    return view('dashboard', compact(
+        'totalSubmissions',
+        'totalDrafts',
+        'approvedSections',
+        'pendingReviews',
+        'returnedSections'
+    ));
+}
 }

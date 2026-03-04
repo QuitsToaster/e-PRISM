@@ -32,7 +32,7 @@
 </style>
 
 <!-- Add top padding to account for fixed navbar -->
-<div class="pt-20 max-w-5xl mx-auto px-4">
+<div class="max-w-7xl mx-auto px-4 pt-20">
 
     <!-- Header with colored gradient area -->
     <div class="bg-gradient-header rounded-xl p-6 mb-8 border border-gray-100">
@@ -123,7 +123,7 @@
     </div>
 
     <!-- Additional Help Section -->
-    <div class="border-gradient-card rounded-xl bg-white p-6 shadow-sm mb-8">
+    <!-- <div class="border-gradient-card rounded-xl bg-white p-6 shadow-sm mb-8">
         <div class="flex items-start gap-4">
             <div class="w-12 h-12 bg-gradient-to-r from-[#2563eb]/20 to-[#1a1a1a]/20 rounded-lg flex items-center justify-center flex-shrink-0">
                 <svg class="w-6 h-6 text-gradient-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -143,7 +143,7 @@
                 </a>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- SYSTEM DEVELOPERS SECTION -->
     <div class="mt-10">

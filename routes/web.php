@@ -87,4 +87,8 @@ Route::middleware('auth')->group(function () {
 Route::post('/admin/attachment-review/{attachmentId}',
     [ResearchController::class, 'saveAttachmentReview']
 )->name('admin.attachment.review');
+
+Route::get('/dashboard', [ResearchController::class, 'dashboard'])
+    ->name('dashboard')
+    ->middleware('auth');
 });

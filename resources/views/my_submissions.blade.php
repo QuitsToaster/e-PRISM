@@ -52,7 +52,7 @@
 </style>
 
 <!-- Add top padding to account for fixed navbar -->
-<div class="pt-20 max-w-4xl mx-auto px-4">
+<div class="max-w-7xl mx-auto px-4 pt-20">
     {{-- Header with colored horizontal area matching dashboard pattern --}}
     <div class="bg-gradient-header rounded-xl p-6 mb-8 border border-gray-100">
         <div class="flex items-center justify-between">

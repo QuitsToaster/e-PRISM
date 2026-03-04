@@ -71,7 +71,7 @@
 </style>
 
 <!-- Main content with proper top padding -->
-<div class="content-wrapper max-w-6xl mx-auto px-4">
+<div class="max-w-7xl mx-auto px-4 pt-20">
     <!-- HEADER - Matching dashboard pattern -->
     <div class="bg-gradient-header rounded-xl p-6 mb-8 border border-gray-100">
         <div class="flex items-center gap-4">
