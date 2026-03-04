@@ -29,11 +29,11 @@
 <nav class="bg-gradient-primary">
     <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
         <div class="text-xl font-bold text-white">e-PRISM</div>
-        <div class="space-x-6 text-sm text-white/90">
+        <!-- <div class="space-x-6 text-sm text-white/90">
             <a href="#" class="hover:text-white">Features</a>
             <a href="#" class="hover:text-white">Feedback</a>
             <a href="#" class="hover:text-white">About</a>
-        </div>
+        </div> -->
     </div>
 </nav>
 

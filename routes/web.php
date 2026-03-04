@@ -70,4 +70,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin-submissions/{id}/download', [ResearchController::class, 'downloadResearchTemplate'])
      ->name('admin.research.download');
+
+     // Admin Summary Pages
+    Route::get('/admin/researches', [ResearchController::class, 'adminResearches'])->name('admin.researches');
+    Route::get('/admin/proponents', [ResearchController::class, 'adminProponents'])->name('admin.proponents');
+    Route::get('/admin/attachments', [ResearchController::class, 'adminAttachments'])->name('admin.attachments');
 });

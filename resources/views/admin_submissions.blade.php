@@ -75,8 +75,6 @@
                 <table class="min-w-full text-sm">
                     <thead class="bg-gray-50 border-b border-gray-200">
                         <tr>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
                             <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
                             <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School</th>
                             <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
@@ -89,15 +87,6 @@
                         @foreach($researches as $index => $research)
                         <tr onclick="window.location='{{ route('admin.submissions.show', $research->id) }}'"
                             class="hover:bg-gradient-to-r hover:from-[#2563eb]/5 hover:to-[#1a1a1a]/5 cursor-pointer transition">
-                            <td class="px-6 py-4 text-gray-500">{{ $index + 1 }}</td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-7 h-7 bg-gradient-primary rounded-full flex items-center justify-center">
-                                        <span class="text-white text-xs">{{ substr($research->user->name, 0, 1) }}</span>
-                                    </div>
-                                    <span class="text-sm text-gray-700">{{ $research->user->name }}</span>
-                                </div>
-                            </td>
                             <td class="px-6 py-4 font-medium text-gradient-primary">
                                 {{ $research->title }}
                             </td>

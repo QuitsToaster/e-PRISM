@@ -114,28 +114,28 @@
             <div class="bg-white/80 backdrop-blur-sm rounded-lg p-4 border-gradient-stat hover-card-effect">
                 <div class="text-xs text-gray-500 mb-1">Total Drafts</div>
                 <div class="text-2xl font-semibold text-gray-800">{{ $totalDrafts ?? 0 }}</div>
-                <div class="text-xs text-[#2563eb] mt-1">📝 Saved drafts</div>
+                <div class="text-xs text-[#2563eb] mt-1">Saved drafts</div>
             </div>
 
             <!-- Stat 3 - Approved Sections -->
             <div class="bg-white/80 backdrop-blur-sm rounded-lg p-4 border-gradient-stat hover-card-effect">
                 <div class="text-xs text-gray-500 mb-1">Approved Sections</div>
                 <div class="text-2xl font-semibold text-gray-800">{{ $approvedSections ?? 0 }}</div>
-                <div class="text-xs text-green-500 mt-1">✓ Approved by admin</div>
+                <div class="text-xs text-green-500 mt-1">Approved by admin</div>
             </div>
             
             <!-- Stat 4 - Pending Review -->
             <div class="bg-white/80 backdrop-blur-sm rounded-lg p-4 border-gradient-stat hover-card-effect">
                 <div class="text-xs text-gray-500 mb-1">Pending Review</div>
                 <div class="text-2xl font-semibold text-gray-800">{{ $pendingReviews ?? 0 }}</div>
-                <div class="text-xs text-yellow-500 mt-1">⏳ Waiting for admin</div>
+                <div class="text-xs text-yellow-500 mt-1">Waiting for admin</div>
             </div>
 
             <!-- Stat 5 - Returned Sections -->
             <div class="bg-white/80 backdrop-blur-sm rounded-lg p-4 border-gradient-stat hover-card-effect">
                 <div class="text-xs text-gray-500 mb-1">Returned Sections</div>
                 <div class="text-2xl font-semibold text-gray-800">{{ $returnedSections ?? 0 }}</div>
-                <div class="text-xs text-orange-500 mt-1">↩️ Needs revision</div>
+                <div class="text-xs text-orange-500 mt-1">Needs revision</div>
             </div>
         </div>
     </div>

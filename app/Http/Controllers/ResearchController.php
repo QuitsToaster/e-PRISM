@@ -170,7 +170,7 @@ public function show($id)
     return view('view_research', compact('research'));
 }
 
-// Admin Dashboard (summary)
+// Admin Dashboard (summary + chart)
 public function adminDashboard()
 {
     $user = auth()->user();
@@ -178,13 +178,33 @@ public function adminDashboard()
         abort(403, 'Unauthorized');
     }
 
+    // All submitted researches
     $researches = Research::where('status', 'submitted')->get();
 
-    // Optional: counts for placeholders
     $totalProponents = $researches->sum(fn($r) => $r->proponents->count());
     $totalAttachments = $researches->sum(fn($r) => $r->attachments->count());
 
-    return view('admin_dashboard', compact('researches', 'totalProponents', 'totalAttachments'));
+    /* ======================================
+       CHART DATA - LAST 30 DAYS SUBMISSIONS
+    =======================================*/
+
+    $chartData = Research::where('status', 'submitted')
+        ->where('created_at', '>=', now()->subDays(30))
+        ->selectRaw('DATE(created_at) as date, COUNT(*) as total')
+        ->groupBy('date')
+        ->orderBy('date')
+        ->pluck('total', 'date');
+
+    $chartLabels = $chartData->keys();
+    $chartValues = $chartData->values();
+
+    return view('admin_dashboard', compact(
+        'researches',
+        'totalProponents',
+        'totalAttachments',
+        'chartLabels',
+        'chartValues'
+    ));
 }
 
 // List of submitted researches (table)
@@ -251,5 +271,40 @@ public function saveFeedback(Request $request, $id)
     return back()->with('success', 'Feedback saved successfully!');
 }
 
+// =============================
+// ADMIN - RESEARCHES PAGE
+// =============================
+public function adminResearches()
+{
+    $researches = Research::with('user')
+        ->where('status', 'submitted')
+        ->latest()
+        ->get();
 
+    return view('admin_researches', compact('researches'));
+}
+
+// =============================
+// ADMIN - PROPONENTS PAGE
+// =============================
+public function adminProponents()
+{
+    $proponents = Proponent::with('research')
+        ->latest()
+        ->get();
+
+    return view('admin_proponents', compact('proponents'));
+}
+
+// =============================
+// ADMIN - ATTACHMENTS PAGE
+// =============================
+public function adminAttachments()
+{
+    $attachments = Attachment::with('research')
+        ->latest()
+        ->get();
+
+    return view('admin_attachments', compact('attachments'));
+}
 }
