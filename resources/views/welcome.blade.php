@@ -32,7 +32,7 @@
         <div class="space-x-6 text-sm text-white/90">
             <a href="#" class="hover:text-white">Features</a>
             <a href="#" class="hover:text-white">Feedback</a>
-            <a href="#" class="hover:text-white">About</a>
+            <a href="{{ route('about') }}" class="hover:text-white">About</a>
         </div>
     </div>
 </nav>

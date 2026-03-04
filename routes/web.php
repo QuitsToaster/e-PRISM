@@ -9,6 +9,11 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+// About Page
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
 // Auth Routes
 Route::get('signup', [AuthController::class, 'showSignupForm'])->name('signup.form');
 Route::post('signup', [AuthController::class, 'signup'])->name('signup');
