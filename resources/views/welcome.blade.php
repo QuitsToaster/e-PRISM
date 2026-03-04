@@ -47,13 +47,18 @@
                 <span class="bg-gradient-to-r from-[#2563eb] to-[#1a1a1a] bg-clip-text text-transparent">🔬 Research Submission Platform</span>
             </div>
             
-            <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+            <h1 class="text-4xl md:text-5xl font-bold leading-tight">
                 <span class="text-gradient-primary">Streamline</span> your research<br>
-                submissions with <br><span class="text-gradient-primary">e-PRISM</span>
+                submissions with Project:<br><span class="text-gradient-primary">e-PRISM</span>
             </h1>
+
+            <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                <span class="text-gradient-primary text-xl">(Electronic Program for Research Initiative Submission & Management)</span>
+            
+            </p>
             
             <p class="text-lg text-gray-600 mb-8 leading-relaxed">
-                Electronic Program for Research Initiative Submission & Management allows 
+                <span class="text-gradient-primary font-bold">e-PRISM</span> allows 
                 proponents to submit research papers section by section, and administrators 
                 to review, approve, and manage submissions efficiently.
             </p>
