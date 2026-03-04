@@ -166,28 +166,28 @@
         </div>
         
         <div class="activity-scroll">
-            @forelse($recentActivities ?? [] as $activity)
-                <div class="flex items-center gap-3 text-sm text-gray-600 p-3 hover:bg-gray-50 rounded-lg transition mb-2 border-b border-gray-100 last:border-0">
-                    @if($activity->type == 'submitted')
-                        <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-                    @elseif($activity->type == 'draft')
-                        <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
-                    @elseif($activity->type == 'returned')
-                        <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
-                    @elseif($activity->type == 'approved')
-                        <span class="w-2 h-2 bg-green-600 rounded-full"></span>
-                    @else
-                        <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
-                    @endif
-                    <span class="flex-1">{{ $activity->description }}</span>
-                    <span class="text-xs text-gray-400">{{ $activity->created_at->diffForHumans() }}</span>
-                </div>
-            @empty
-                <div class="flex items-center gap-3 text-sm text-gray-600 p-3 bg-gray-50 rounded-lg">
-                    <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
-                    <span>No recent activity yet</span>
-                </div>
-            @endforelse
+            @forelse($recentActivities as $activity)
+    <div class="flex items-center gap-3 text-sm text-gray-600 p-3 hover:bg-gray-50 rounded-lg transition mb-2 border-b border-gray-100 last:border-0">
+        @if($activity->type == 'submitted')
+            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+        @elseif($activity->type == 'draft')
+            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+        @elseif($activity->type == 'returned')
+            <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+        @elseif($activity->type == 'approved')
+            <span class="w-2 h-2 bg-green-600 rounded-full"></span>
+        @else
+            <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
+        @endif
+        <span class="flex-1">{{ $activity->description }}</span>
+        <span class="text-xs text-gray-400">{{ $activity->created_at->diffForHumans() }}</span>
+    </div>
+@empty
+    <div class="flex items-center gap-3 text-sm text-gray-600 p-3 bg-gray-50 rounded-lg">
+        <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
+        <span>No recent activity yet</span>
+    </div>
+@endforelse
         </div>
         
         {{-- View All Activities Button with Gradient Background --}}

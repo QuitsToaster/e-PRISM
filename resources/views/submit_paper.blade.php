@@ -622,5 +622,40 @@ researchType.onchange = () => {
 
     loadAttachments();
 };
+
+// ===============================
+// FORM SUBMIT HANDLER - DRAFT vs SUBMIT
+// ===============================
+const submissionForm = document.querySelector('#submissionForm form');
+
+submissionForm.addEventListener('submit', function(e) {
+    const action = document.getElementById('formAction').value;
+
+    // If saving as draft, remove required attributes
+    if (action === 'draft') {
+        submissionForm.querySelectorAll('input, textarea, select').forEach(el => {
+            // Store previous required state
+            el.dataset.wasRequired = el.hasAttribute('required');
+            
+            // Remove required for draft
+            el.removeAttribute('required');
+        });
+
+        // Also remove "required" specifically from file inputs
+        submissionForm.querySelectorAll('input[type="file"]').forEach(fileInput => {
+            fileInput.dataset.wasRequired = fileInput.hasAttribute('required');
+            fileInput.removeAttribute('required');
+        });
+    }
+});
+
+// Optional: Restore required after reset (if user clicks reset button)
+submissionForm.addEventListener('reset', function() {
+    submissionForm.querySelectorAll('input, textarea, select').forEach(el => {
+        if (el.dataset.wasRequired === 'true') {
+            el.setAttribute('required', 'required');
+        }
+    });
+});
 </script>
 @endsection

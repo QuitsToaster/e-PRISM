@@ -9,6 +9,7 @@ use App\Models\Attachment;
 use App\Models\ResearchChapter;
 use App\Models\ResearchChapterTable;
 use App\Models\ResearchChapterTableRow;
+use App\Models\ActivityLog;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -127,6 +128,7 @@ public function store(Request $request)
                 ]);
             }
         }
+
 
     });
 
@@ -424,6 +426,12 @@ public function dashboard()
     $returnedAttachments = Attachment::whereIn('research_id', $researchIds)
         ->where('review_status', 'Needs Revision')->count();
 
+        // Fetch recent activities (latest 10)
+    $recentActivities = ActivityLog::where('user_id', $userId)
+                        ->latest()
+                        ->take(10)
+                        ->get();
+
     /* ===============================
        FINAL TOTALS
     ================================*/
@@ -447,7 +455,8 @@ public function dashboard()
         'totalDrafts',
         'approvedSections',
         'pendingReviews',
-        'returnedSections'
+        'returnedSections',
+        'recentActivities'
     ));
 }
 }
