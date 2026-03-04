@@ -62,7 +62,7 @@
             </div>
             <div class="flex items-center gap-3">
     <!-- Place your logo image here -->
-    <img src="{{ asset('logo.png') }}" alt="e-PRISM Logo" class="w-10 h-10 rounded-lg" />
+    <!-- <img src="{{ asset('logo.png') }}" alt="e-PRISM Logo" class="w-10 h-10 rounded-lg" /> -->
 
     <div>
         <span class="text-white font-bold block">e-PRISM</span>
